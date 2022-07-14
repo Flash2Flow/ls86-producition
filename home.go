@@ -51,13 +51,13 @@ func auth(w http.ResponseWriter, r *http.Request) {
 
 					http.SetCookie(w, Id)
 					http.SetCookie(w, hash)
-					temp, err := template.ParseFiles("temp/test.html")
+					temp, err := template.ParseFiles("temp/redirects/toHome.html")
 
 					if err != nil {
 						fmt.Fprintf(w, err.Error())
 					}
 
-					temp.ExecuteTemplate(w, "redirect", nil)
+					temp.ExecuteTemplate(w, "redirect_home", nil)
 					return
 				} else {
 					log.Println(1)
@@ -171,4 +171,34 @@ func lk(w http.ResponseWriter, r *http.Request) {
 		log.Println("err cookie token")
 	}
 
+}
+
+func exit(w http.ResponseWriter, r *http.Request) {
+	Id := &http.Cookie{
+		Name:     "ID",
+		Value:    "",
+		MaxAge:   -1,
+		Domain:   "localhost",
+		SameSite: http.SameSiteLaxMode,
+		Path:     "/",
+	}
+	hash := &http.Cookie{
+		Name:     "hash",
+		Value:    "",
+		Domain:   "localhost",
+		Path:     "/",
+		SameSite: http.SameSiteLaxMode,
+		MaxAge:   -1,
+	}
+
+	http.SetCookie(w, Id)
+	http.SetCookie(w, hash)
+
+	temp, err := template.ParseFiles("temp/redirects/toMain.html")
+
+	if err != nil {
+		fmt.Fprintf(w, err.Error())
+	}
+
+	temp.ExecuteTemplate(w, "redirect_main", nil)
 }

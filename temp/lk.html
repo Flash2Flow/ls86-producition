@@ -133,7 +133,7 @@
                                     <button class="btn-settings" id="btn-settings" type="button">НАСТРОЙКИ АККАУНТА</button>
                                 </div>
                                 <div class="block-btn-logout">
-                                    <button class="btn-logout" type="button">ВЫЙТИ ИЗ АККАУНТА</button>
+                                    <button class="btn-logout" id="exit" name="exit" type="button">ВЫЙТИ ИЗ АККАУНТА</button>
                                 </div>
                             </div>
                         </div>
@@ -193,6 +193,12 @@
     <script src="https://kit.fontawesome.com/fe0c420bba.js" crossorigin="anonymous"></script>
     <script src="../static/lk/src/jquery-3.6.0.min.js"></script>
     <script src="../static/lk/src/app.js"></script>
+    <script>
+        $('#exit').click(function(){
+  
+  window.location.replace('http://localhost:3030/exit')
+});
+    </script>
 </body>
 </html>
 {{ end }}
