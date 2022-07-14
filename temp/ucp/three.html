@@ -78,40 +78,40 @@
                     </div>
                 </div>
             </div>
-            <form action="">
+            <form action="/ucp" method="GET">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="block-character-player">
                             <div class="block-nick-name">
-                                <input type="text" class="nick-name" placeholder="Введите имя персонажа...">
+                                <input type="text" class="nick-name" id="pers_name" placeholder="Введите имя персонажа...">
                             </div>
                             <div class="block-age">
-                                <input type="text" class="age" placeholder="Введите возраст...">
+                                <input type="text" class="age" id="pers_age" placeholder="Введите возраст...">
                             </div>
                             <div class="block-male">
-                                <input type="text" class="male" placeholder="Укажите пол...">
+                                <input type="text" class="male" id="pers_floor" placeholder="Укажите пол...">
                             </div>
                             <div class="block-national">
-                                <input type="text" class="national" placeholder="Укажите национальность...">
+                                <input type="text" class="national" id="pers_nazi" placeholder="Укажите национальность...">
                             </div>
                             <div class="block-color">
-                                <input type="text" class="color-face" placeholder="Укажите ID скина...">
+                                <input type="text" class="color-face" id="pers_skin" placeholder="Укажите ID скина...">
                             </div>
                             <div class="block-life">
-                                <input type="text" class="life-country" placeholder="Укажите место рождения...">
+                                <input type="text" class="life-country" id="pers_country" placeholder="Укажите место рождения...">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="block-write-kventa">
                             <div class="container-area-t">
-                                <textarea class="opis" placeholder="Квента персонажа"></textarea>
+                                <textarea class="opis" id="pers_quenta" placeholder="Квента персонажа"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="block-btn-accept-next">
-                    <button class="link-btn" type="button">ОТПРАВИТЬ</button>
+                    <button class="link-btn" type="button" id="btn-send-ucp">ОТПРАВИТЬ</button>
                 </div>
             </form>
         </div>
@@ -132,6 +132,7 @@
     <script src="https://kit.fontawesome.com/fe0c420bba.js" crossorigin="anonymous"></script>
     <script src="../static/ucp/three/src/jquery-3.6.0.min.js"></script>
     <script src="../static/ucp/three/src/app.js"></script>
+    <script src="../static/ucp/three/src/ajax.js"></script>
 </body>
 </html>
 {{ end }}

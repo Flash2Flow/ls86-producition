@@ -19,17 +19,45 @@ type Data struct {
 }
 
 type User struct {
-	Id        int    `gorm:"primary_key"`
-	Login     string `gorm:"not_null"`
-	Email     string `gorm:"not_null"`
-	Password  string `gorm:"not_null"`
-	AuthToken string `gorm:"not_null"`
+	Id          int    `gorm:"primary_key"`
+	Login       string `gorm:"not_null"`
+	Email       string `gorm:"not_null"`
+	Password    string `gorm:"not_null"`
+	AuthToken   string `gorm:"not_null"`
+	PersonOne   string `gorm:"not_null"`
+	PersonTwo   string `gorm:"not_null"`
+	PersonThree string `gorm:"not_null"`
+	PersonFour  string `gorm:"not_null"`
+}
+
+type Person struct {
+	Id      int    `gorm:"primary_key"`
+	Name    string `gorm:"not_null"`
+	Login   string `gorm:"not_null"`
+	Floor   string `gorm:"not_null"`
+	Age     string `gorm:"not_null"`
+	Nazi    string `gorm:"not_null"`
+	Skin    string `gorm:"not_null"`
+	Country string `gorm:"not_null"`
+	Quenta  string `gorm:"not_null"`
+	State   string `gorm:"not_null"`
+}
+
+type State struct {
+	Waiting  string
+	Allow    string
+	Disallow string
 }
 
 var (
 	data = Data{
 		User:     "root",
 		Password: "537003",
+	}
+	state = State{
+		Waiting:  "Waiting",
+		Allow:    "Allow",
+		Disallow: "Disallow",
 	}
 )
 
@@ -90,6 +118,19 @@ func (d *Data) FindOne(title string, value string) (*User, error) {
 			defer db.Close()
 			return user, nil
 		}
+
+	case "token":
+		db := data.Connection()
+		user := new(User)
+		db.First(user, &User{AuthToken: value})
+		if user.Id == 0 {
+			defer db.Close()
+			return nil, customErr.ErrNotFound
+		} else {
+			defer db.Close()
+			return user, nil
+		}
+
 	}
 
 	return nil, customErr.ErrNotFound
@@ -132,6 +173,133 @@ func (d *Data) Auth(login string, password string) (*User, error) {
 		}
 	}
 
+}
+
+func (d *Data) UcpGetPers(value string) (*Person, error) {
+	db := data.Connection()
+	person := new(Person)
+	db.First(person, &Person{Name: value})
+	if person.Id == 0 {
+		defer db.Close()
+		return nil, customErr.ErrNotFound
+	} else {
+		defer db.Close()
+		return person, nil
+	}
+
+}
+
+func getEmptyPers(u *User) string {
+	if u.PersonOne == " " {
+		return "PersonOne"
+	} else {
+		if u.PersonTwo == " " {
+			return "PersonTwo"
+		} else {
+			if u.PersonThree == " " {
+				return "PersonFree"
+			} else {
+				if u.PersonFour == " " {
+					return "PersonFour"
+				} else {
+					return "PersonFull"
+				}
+			}
+		}
+	}
+}
+
+func (d *Data) UpdateUser(title string, login string, person string, value string) error {
+	switch title {
+	case "UserUcp":
+		switch person {
+		case "one":
+			_, err := data.FindOne("login", login)
+			if err != customErr.ErrNotFound {
+				db := data.Connection()
+				user := &User{Login: login}
+				db.Model(user).Update("PersonOne", value)
+			} else {
+				log.Println(err)
+				return err
+			}
+		case "two":
+			_, err := data.FindOne("login", login)
+			if err != customErr.ErrNotFound {
+				db := data.Connection()
+				user := &User{Login: login}
+				db.Model(user).Update("PersonTwo", value)
+			} else {
+				log.Println(err)
+				return err
+			}
+		case "three":
+			_, err := data.FindOne("login", login)
+			if err != customErr.ErrNotFound {
+				db := data.Connection()
+				user := &User{Login: login}
+				db.Model(user).Update("PersonThree", value)
+			} else {
+				log.Println(err)
+				return err
+			}
+		case "four":
+			_, err := data.FindOne("login", login)
+			if err != customErr.ErrNotFound {
+				db := data.Connection()
+				user := &User{Login: login}
+				db.Model(user).Update("PersonFour", value)
+			} else {
+				log.Println(err)
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (d *Data) UcpLimitPers(login string) (string, error) {
+	u, err := data.FindOne("login", login)
+	switch err {
+	case customErr.ErrNotFound:
+		return " ", customErr.ErrNotFound
+	case nil:
+		str := getEmptyPers(u)
+		return str, nil
+	default:
+		log.Println(err)
+	}
+
+	return " ", nil
+}
+
+func (d *Data) UcpCreatePers(nickname string, login string, floor string, age string, nazi string, skin string, country string, quenta string) *Person {
+	db := data.Connection()
+	db.CreateTable(Person{})
+	persVal, _ := data.UcpLimitPers(login)
+	data.UpdateUser("UserUcp", login, persVal, nickname)
+
+	person := &Person{Name: nickname, Login: login, Floor: floor, Age: age, Nazi: nazi, Skin: skin, Country: country, Quenta: quenta, State: state.Waiting}
+	db.Create(person)
+
+	defer db.Close()
+	logs.CreatePerson(person)
+	return person
+}
+
+func (d *Data) UcpUpdatePers(login string, state string) {
+	db := data.Connection()
+	person := &Person{Login: login}
+	db.Model(person).Update("State", state)
+	logs.UpdatePerson(person)
+
+}
+
+func (d *Data) UcpDeletePers(login string) {
+	db := data.Connection()
+	person := &Person{Login: login}
+	db.Delete(person)
+	logs.DeletePerson(person)
 }
 
 func HashPassword(password string) (string, error) {

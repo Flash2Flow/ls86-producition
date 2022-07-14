@@ -11,60 +11,84 @@ import (
 )
 
 func all(w http.ResponseWriter, r *http.Request) {
-	temp, err := template.ParseFiles("temp/home.html", "static/src/app.js", "static/src/jquery-3.6.0.min.js")
 
-	if err != nil {
-		fmt.Fprintf(w, err.Error())
+	boo, _ := checkCookie(r)
+	if boo == true {
+		log.Println("LK_ALL REDIRECT")
+		temp, err := template.ParseFiles("temp/redirects/toHome.html")
+
+		if err != nil {
+			fmt.Fprintf(w, err.Error())
+		}
+		temp.ExecuteTemplate(w, "redirect_home", nil)
+	} else {
+		temp, err := template.ParseFiles("temp/home.html", "static/src/app.js", "static/src/jquery-3.6.0.min.js")
+
+		if err != nil {
+			fmt.Fprintf(w, err.Error())
+		}
+
+		temp.ExecuteTemplate(w, "home", nil)
 	}
-
-	temp.ExecuteTemplate(w, "home", nil)
 
 }
 
 func auth(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	login := params["login"]
-	authToken := params["token"]
 
-	if login != " " {
-		if authToken != " " {
-			u, err := data.FindOne("login", login)
-			if err == nil {
-				if authToken == u.AuthToken {
-					str := strconv.Itoa(u.Id)
-					Id := &http.Cookie{
-						Name:     "ID",
-						Value:    str,
-						MaxAge:   300,
-						Domain:   "localhost",
-						SameSite: http.SameSiteLaxMode,
-						Path:     "/",
+	boo, _ := checkCookie(r)
+	if boo == true {
+		log.Println("LK_USER ERROR")
+		temp, err := template.ParseFiles("temp/redirects/toHome.html")
+
+		if err != nil {
+			fmt.Fprintf(w, err.Error())
+		}
+		temp.ExecuteTemplate(w, "redirect_home", nil)
+	} else {
+		params := mux.Vars(r)
+		login := params["login"]
+		authToken := params["token"]
+
+		if login != " " {
+			if authToken != " " {
+				u, err := data.FindOne("login", login)
+				if err == nil {
+					if authToken == u.AuthToken {
+						str := strconv.Itoa(u.Id)
+						Id := &http.Cookie{
+							Name:     "ID",
+							Value:    str,
+							MaxAge:   300,
+							Domain:   "localhost",
+							SameSite: http.SameSiteLaxMode,
+							Path:     "/",
+						}
+						hash := &http.Cookie{
+							Name:     "hash",
+							Value:    u.AuthToken,
+							Domain:   "localhost",
+							Path:     "/",
+							SameSite: http.SameSiteLaxMode,
+							MaxAge:   300,
+						}
+
+						http.SetCookie(w, Id)
+						http.SetCookie(w, hash)
+						temp, err := template.ParseFiles("temp/redirects/toHome.html")
+
+						if err != nil {
+							fmt.Fprintf(w, err.Error())
+						}
+
+						temp.ExecuteTemplate(w, "redirect_home", nil)
+						return
+					} else {
+						log.Println(1)
+						log.Println("u- " + u.AuthToken)
+						log.Println("p- " + authToken)
 					}
-					hash := &http.Cookie{
-						Name:     "hash",
-						Value:    u.AuthToken,
-						Domain:   "localhost",
-						Path:     "/",
-						SameSite: http.SameSiteLaxMode,
-						MaxAge:   300,
-					}
 
-					http.SetCookie(w, Id)
-					http.SetCookie(w, hash)
-					temp, err := template.ParseFiles("temp/redirects/toHome.html")
-
-					if err != nil {
-						fmt.Fprintf(w, err.Error())
-					}
-
-					temp.ExecuteTemplate(w, "redirect_home", nil)
-					return
-				} else {
-					log.Println(1)
-					log.Println("u- " + u.AuthToken)
-					log.Println("p- " + authToken)
 				}
-
 			}
 		}
 	}
@@ -82,8 +106,9 @@ func lkuser(w http.ResponseWriter, r *http.Request) {
 		}
 
 		temp.ExecuteTemplate(w, "lk_user", u)
-	} else {
-		log.Println("LK_USER ERROR")
+	}
+	if boo == false {
+		log.Println("LK ERROR")
 		temp, err := template.ParseFiles("temp/redirects/toHome.html")
 
 		if err != nil {
@@ -104,7 +129,9 @@ func lk(w http.ResponseWriter, r *http.Request) {
 		}
 
 		temp.ExecuteTemplate(w, "lk", u)
-	} else {
+	}
+
+	if boo == false {
 		log.Println("LK ERROR")
 		temp, err := template.ParseFiles("temp/redirects/toHome.html")
 
@@ -113,6 +140,7 @@ func lk(w http.ResponseWriter, r *http.Request) {
 		}
 		temp.ExecuteTemplate(w, "redirect_main", nil)
 	}
+
 }
 
 func exit(w http.ResponseWriter, r *http.Request) {
@@ -161,7 +189,6 @@ func checkCookie(r *http.Request) (bool, *User) {
 
 					case nil:
 						if tokenCookie.Value == u.AuthToken {
-
 							return true, u
 						} else {
 							//bad token
@@ -194,5 +221,5 @@ func checkCookie(r *http.Request) (bool, *User) {
 		log.Println("err cookie token")
 		return false, nil
 	}
-	return false, nil
+
 }

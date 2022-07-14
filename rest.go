@@ -108,7 +108,7 @@ func GetOneUser(w http.ResponseWriter, r *http.Request) {
 	value := params["value"]
 
 	//check rest token
-	token := r.Header.Get("rest-token")
+	token := r.Header.Get("acp-token")
 	if token == rest.Token {
 		user, err := data.FindOne(criterion, value)
 		if err != nil {
@@ -132,7 +132,7 @@ func GetOneUser(w http.ResponseWriter, r *http.Request) {
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	//check rest token
-	token := r.Header.Get("rest-token")
+	token := r.Header.Get("acp-token")
 	if token == rest.Token {
 		users := data.FindAll()
 		//exec user
@@ -145,6 +145,53 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusForbidden)
 		fmt.Fprintf(w, customErr.ErrAccessDenied.Error())
 	}
+}
+
+func UcpCreate(w http.ResponseWriter, r *http.Request) {
+	//init params
+	params := mux.Vars(r)
+	login := params["login"]
+	nickname := params["nickname"]
+	floor := params["floor"]
+	age := params["age"]
+	nazi := params["nazi"]
+	skin := params["skin"]
+	country := params["country"]
+	quenta := params["quenta"]
+
+	token := r.Header.Get("user-token")
+	user, err := data.FindOne("login", login)
+	switch err {
+	case customErr.ErrNotFound:
+		//err
+		log.Println(customErr.ErrNotFound.Error())
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, customErr.ErrNotFound.Error())
+	case nil:
+		//go
+		if token == user.AuthToken {
+			_, err := data.UcpGetPers(nickname)
+			if err == customErr.ErrNotFound {
+				data.UcpCreatePers(nickname, login, floor, age, nazi, skin, country, quenta)
+			} else {
+				//err person already have
+				log.Println(customErr.ErrLoginAlreadyUsing.Error())
+				w.WriteHeader(http.StatusBadRequest)
+				fmt.Fprintf(w, customErr.ErrLoginAlreadyUsing.Error())
+			}
+		} else {
+			//err bad token
+			log.Println(w, customErr.ErrAccessDenied.Error())
+			w.WriteHeader(http.StatusForbidden)
+			fmt.Fprintf(w, customErr.ErrAccessDenied.Error())
+		}
+	default:
+		//err
+		log.Println(customErr.ErrNotFound.Error())
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, customErr.ErrNotFound.Error())
+	}
+
 }
 
 func RandStringRunes(n int) string {
