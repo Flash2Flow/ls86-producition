@@ -1,13 +1,4 @@
 //Конвертируется в .css в папку /css/
-.green{
-    background-color: #259F38;
-}
-.red{
-    background-color: #9F2525;
-}
-.orange{
-    background-color: #a98403;
-}
 
 @import '_fonts';
 @import '_media';
@@ -20,20 +11,7 @@
         width: 230px;
     }
 }
-input[type=password]{
-    text-align: center;
-    @include BoldDownFonts;
-    font-size: 15px;
-    color: black;
-}
-input{
-    width: 100%;
-    height: 40px;
-    outline: none;
-    border-radius: 20px;
-    border: none;
-    transition: .2s ease;
-}
+
 body{
     background-color: #311432;
     height: 100%;
@@ -349,102 +327,194 @@ a{
     flex-wrap: wrap;
     justify-content: space-between;
 }
-.block-stroke-email{
-    display: flex;
-}
-.block-stroke-password{
-    display: flex;
-}
-.size-pencil{
-    margin-top: 5px;
-    margin-left: 10px;
-}
-.name-block-set{
-    @include BoldUpFonts;
-}
-.remove-name{
-    @include BoldUpFonts;
-}
-.block-settings-account{
-    display: none;
-    background-color: #311432;
-    z-index: 2;
-    box-shadow: 0px 0px 20px #000;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-    height: 300px;
-}
-.block-settings-name{
+
+//lk-player-game
+.block-banner-player{
+    background-image: url(../assets/banner-lk-player.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 20px;
+    width: 100%;
+    height: 250px;
     text-align: center;
-    margin-top: 30px;
-    margin-bottom: 50px;
 }
-.container-settings{
+.lk-player{
+    @include BoldUpFonts;
+    padding-top: 80px;
+    font-size: 45px;
+}
+.nickname{
+    @include BoldDownFonts;
+    font-size: 30px;
+}
+.block-statistic-player{
+    margin-top: 30px;
+}
+.block-static-one{
+    margin-top: 30px;
+    padding-top: 30px;
+    box-shadow: 0px 0px 20px #000;
+
+}
+.name-one{
+    @include BoldUpFonts;
+    letter-spacing: 1px;
+}
+.inform-one{
+    @include BoldDownFonts;
+    font-size: 20px;
+}
+.block-name-one{
+    text-align: center;
+}
+.block-name-two{
+    text-align: center;
+}
+.block-information-one{
     margin: 0 auto;
-    width: 370px;
+    padding-top: 36px;
+    padding-bottom: 30px;
+    width: 430px;
 }
-.stroke-email{
-    @include BoldDownFonts;
-    font-size: 20px;
+.block-information-two{
+    margin: 0 auto;
+    padding-top: 36px;
+    padding-bottom: 30px;
+    width: 430px;
 }
-.stroke-password{
-    @include BoldDownFonts;
-    font-size: 20px;
-}
-.block-remove-name{
-    text-align: center;
+.block-static-two{
     margin-top: 30px;
-    margin-bottom: 50px;
-}
-.block-remove-password{
-    display: none;
-    background-color: #311432;
-    z-index: 2;
+    padding-top: 30px;
     box-shadow: 0px 0px 20px #000;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-    height: 300px;
+
 }
-.btn-accept{
+.inform-two{
+    @include BoldDownFonts;
+    font-size: 20px;
+}
+.name-two{
+    @include BoldUpFonts;
+    letter-spacing: 1px;
+}
+.block-story-player{
+    margin-top: 30px;
+    box-shadow: 0px 0px 20px #000;
+}
+.kventa{
+    @include BoldUpFonts;
+    letter-spacing: 1px;
+}
+.story-player{
+    @include BoldDownFonts;
+    letter-spacing: 1px;
+    font-size: 15px;
+}
+.block-name-story{
+    padding-top: 35px;
+    padding-bottom: 30px;
+    margin: 0 auto;
+    width: 1189px;
+}
+.block-name-kventa{
+    padding-top: 20px;
+    margin-left: 54px;
+}
+.block-flex-kventa{
+    display: flex;
+}
+.block-pencil{
+    margin-top: 25px;
+    margin-left: 15px;
+}
+.block-accept-message{
+    //display: none;
+    width: 100%;
+    background-color: #259F38;
+    @include BoldUpFonts;
+    font-size: 15px;
+    box-shadow: 0px 0px 20px 0px rgb(83 78 78);
+}
+.block-noaccept-message{
+    //display: none;
+    width: 100%;
+    background-color: #9F2525;
+    @include BoldUpFonts;
+    font-size: 15px;
+    box-shadow: 0px 0px 20px 0px rgb(83 78 78);
+}
+.block-ban-message{
+    //display: none;
+    width: 100%;
+    background-color: #9F2525;
+    @include BoldUpFonts;
+    font-size: 15px;
+    box-shadow: 0px 0px 20px 0px rgb(83 78 78);
+}
+.block-expectation-message{
+    //display: none;
+    width: 100%;
+    background-color: #a98403;
+    @include BoldUpFonts;
+    font-size: 15px;
+    box-shadow: 0px 0px 20px 0px rgb(83 78 78);
+}
+.text-message{
+    //display: none;
+    padding-top: 10px;
+    letter-spacing: 1px;
+    text-transform: none;
+    padding-bottom: 10px;
+    margin-left: 20px;
+}
+.block-retest{
+    text-align: center;
+    width: 100%;
+    background-color: #9F2525;
+    @include BoldUpFonts;
+    font-size: 15px;
+    box-shadow: 0px 0px 20px 0px rgb(83 78 78);
+}
+.opis-retest{
+    @include BoldUpFonts;
+    font-size: 15px;
+    text-transform: none;
+}
+.block-text-inform-retest{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-transform: none;
+}
+.block-btn-retest{
+    padding-bottom: 10px;
+}
+.text-retest{
+    margin-bottom: 0px;
+}
+.btn-retest{
     @include BoldUpFonts;
     font-size: 15px;
     border: none;
     background-color: #259F38;
-    padding: 15px 60px;
+    padding: 10px 20px;
     color: white;
     transition: .2s ease;
     letter-spacing: 2px;
 }
-.btn-accept:hover{
+.btn-retest:hover{
     box-shadow: 0px 0px 20px 0px rgb(83 78 78);
 }
-.block-btn-accept-code{
-    text-align: center;
-    margin-top: 60px;
-}
-.code-set{
-    margin-bottom: 20px;
-}
-.block-btn-set-code{
-    text-align: center;
-    margin-top: 20px;
-}
-.block-set-name{
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 28px;
-}
-
 //media
+@media screen and (max-width: 1024px){
+    .block-name-story{
+        width: 824px;
+    }
+}
 @media screen and (max-width: 769px){
     .menu_nav{
         display: none;
+    }
+    .block-name-story{
+        width: 400px;
     }
     .burger{
         display: block;
@@ -464,6 +534,15 @@ a{
     .burger{
         margin-top: -45px;
     }
+    .block-information-one{
+        width: 335px;
+    }
+    .block-information-two{
+        width: 335px;
+    }
+    .block-name-story{
+        width: 285px;
+    }
 }
 @media screen and (max-width: 375px){
     .block-information{
@@ -481,6 +560,21 @@ a{
     .block-player{
         margin: 0 auto;
         margin-top: 30px;
+    }
+}
+@media screen and (max-width: 320px){
+    .block-name-kventa{
+        margin-left: 0px;
+        text-align: center;
+    }
+    .block-information-one{
+        width: 215px;
+    }
+    .block-information-two{
+        width: 215px;
+    }
+    .block-name-story{
+        width: 210px;
     }
 }
 

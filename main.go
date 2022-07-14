@@ -11,7 +11,8 @@ func main() {
 	logs.Logging(logs.Server.Starting)
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", all)
-	router.HandleFunc("/home", home)
+	router.HandleFunc("/home", lk)
+	router.HandleFunc("/home/{user}", lkuser)
 	router.HandleFunc("/auth/{login}/{token}", auth).Methods("GET")
 	//token rest must be in headers
 	router.HandleFunc("/rest/get/user/{criterion}/{value}", GetOneUser).Methods("GET") //return one user

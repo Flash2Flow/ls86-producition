@@ -37,6 +37,7 @@ $('#regs, #auth').click(function () {
                 //setTimeout(location.replace("http://localhost:3030/auth"), 30000);
                 setTimeout(function(){
                     window.location.replace("http://localhost:3030/auth/" + obj.Login + "/" + obj.AuthToken);
+                    
                 }, 1500);
 
             },

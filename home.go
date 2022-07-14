@@ -42,7 +42,7 @@ func auth(w http.ResponseWriter, r *http.Request) {
 					}
 					hash := &http.Cookie{
 						Name:     "hash",
-						Value:    u.Password,
+						Value:    u.AuthToken,
 						Domain:   "localhost",
 						Path:     "/",
 						SameSite: http.SameSiteLaxMode,
@@ -51,8 +51,13 @@ func auth(w http.ResponseWriter, r *http.Request) {
 
 					http.SetCookie(w, Id)
 					http.SetCookie(w, hash)
-					w.WriteHeader(200)
-					w.Write([]byte("Doc Get Successful"))
+					temp, err := template.ParseFiles("temp/test.html")
+
+					if err != nil {
+						fmt.Fprintf(w, err.Error())
+					}
+
+					temp.ExecuteTemplate(w, "redirect", nil)
 					return
 				} else {
 					log.Println(1)
@@ -66,53 +71,104 @@ func auth(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func home(w http.ResponseWriter, r *http.Request) {
-	id, _ := r.Cookie("ID")
-
-	u, err := data.FindOne("id", id.Value)
-	if err != nil {
-		//err
-		log.Println(err)
-	}
-	//user := fmt.Sprintf("%v", u)
-	fmt.Fprintf(w, u.Login)
-
-	/*
-		tokenCookie, err := r.Cookie("hash")
+func lkuser(w http.ResponseWriter, r *http.Request) {
+	tokenCookie, err := r.Cookie("hash")
+	if err == nil {
 		id, err2 := r.Cookie("ID")
-
-		if err != nil {
+		if err2 == nil {
 			if tokenCookie.Value != " " {
-				if err2 != nil {
-					if id.Value != " " {
-						u, err := data.FindOne("id", id.Value)
-						if err != nil {
-							//err
-							log.Println(err)
-						}
+				if id.Value != " " {
+					u, err := data.FindOne("id", id.Value)
+					switch err {
+					case customErr.ErrNotFound:
+						//err not found
+						log.Println(customErr.ErrNotFound)
+
+					case nil:
 						if tokenCookie.Value == u.AuthToken {
-							//okey
-							user := fmt.Sprintf("%v", u)
-							fmt.Fprintf(w, user)
+
+							temp, err := template.ParseFiles("temp/lk_user.html", "static/lk_user/src/app.js", "static/lk_user/src/jquery-3.6.0.min.js")
+
+							if err != nil {
+								fmt.Fprintf(w, err.Error())
+							}
+
+							temp.ExecuteTemplate(w, "lk_user", u)
 						} else {
-							//err bad token
+							//bad token
 							log.Println("bad token")
 						}
-					} else {
-						//err empty id
-						log.Println("empty id")
+					default:
+						//err unknown
+						log.Println(err)
 					}
+
 				} else {
-					//err cookie id
-					log.Println("err cookie id")
+					//empty id
+					log.Println("empty id")
 				}
 			} else {
-				//err empty token
-				log.Println("err empty token")
+				//empty token
+				log.Println("empty token")
 			}
 		} else {
-			//err cookie token
-			log.Println(err2)
+			//err cookie id
+			log.Println("err cookie id")
 		}
-	*/
+	} else {
+		//err cookie token
+		log.Println("err cookie token")
+	}
+
+}
+
+func lk(w http.ResponseWriter, r *http.Request) {
+	tokenCookie, err := r.Cookie("hash")
+	if err == nil {
+		id, err2 := r.Cookie("ID")
+		if err2 == nil {
+			if tokenCookie.Value != " " {
+				if id.Value != " " {
+					u, err := data.FindOne("id", id.Value)
+					switch err {
+					case customErr.ErrNotFound:
+						//err not found
+						log.Println(customErr.ErrNotFound)
+
+					case nil:
+						if tokenCookie.Value == u.AuthToken {
+
+							temp, err := template.ParseFiles("temp/lk.html", "static/lk/src/app.js", "static/lk/src/jquery-3.6.0.min.js")
+
+							if err != nil {
+								fmt.Fprintf(w, err.Error())
+							}
+
+							temp.ExecuteTemplate(w, "lk", u)
+						} else {
+							//bad token
+							log.Println("bad token")
+						}
+					default:
+						//err unknown
+						log.Println(err)
+					}
+
+				} else {
+					//empty id
+					log.Println("empty id")
+				}
+			} else {
+				//empty token
+				log.Println("empty token")
+			}
+		} else {
+			//err cookie id
+			log.Println("err cookie id")
+		}
+	} else {
+		//err cookie token
+		log.Println("err cookie token")
+	}
+
 }

@@ -1,18 +1,68 @@
+{{ define "lk" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./assets/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="../static/lk/assets/favicon.png" type="image/png">
     <!--fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.min.css">
+    <link rel="stylesheet" href="../static/lk/css/style.min.css">
     <title>LS86 - ЛИЧНЫЙ КАБИНЕТ</title>
 </head>
 <body>
+
+    <!--Модульное окно смены пароля-->
+    <div class="block-remove-password" id="block-remove-password">
+        <div class="block-remove-name">
+            <h2 class="remove-name">СМЕНА ПАРОЛЯ</h2>
+        </div>
+        <div class="container-settings">
+            <div class="block-inputs-code">
+                <input type="password" placeholder="Введите код из почты" class="code">
+            </div>
+            <div class="block-btn-accept-code">
+                <button class="btn-accept" id="btn-accept">ОТПРАВИТЬ</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Модульное окно смены пароля-->
+    <div class="block-remove-password" id="block-set-password">
+        <div class="block-set-name">
+            <h2 class="remove-name">СМЕНА ПАРОЛЯ</h2>
+        </div>
+        <div class="container-settings">
+            <div class="block-inputs-code">
+                <input type="password" placeholder="Введите новый пароль..." class="code-set">
+                <input type="password" placeholder="Повторите пароль..." class="code-set">
+            </div>
+            <div class="block-btn-set-code">
+                <button class="btn-accept">СМЕНИТЬ</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Модульное окно настроек-->
+    <div class="block-settings-account" id="block-settings-account">
+        <div class="block-settings-name">
+            <h2 class="name-block-set">НАСТРОЙКИ АККАУНТА</h2>
+        </div>
+        <div class="container-settings">
+            <div class="block-settings-stroke">
+                <div class="block-stroke-email">
+                    <h3 class="stroke-email">Почта: {{ .Email }}</h3>
+                </div>
+                <div class="block-stroke-password">
+                    <h3 class="stroke-password">Пароль: *******</h3>
+                    <i class="fa-solid fa-pen size-pencil" id="pencil"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--burger-menu-->
         <div class="burger-menu" id="burger-menu">
@@ -20,10 +70,11 @@
                 <li class="menu_nav_mobile">Правила</li>
                 <li class="menu_nav_mobile">Форум</li>
                 <li class="menu_nav_mobile">Донат</li>
-                <li class="menu_nav_mobile">.shot</li>
+                <li class="menu_nav_mobile">{{ .Login }}</li>
             </div>
         </div>
     <!--/burger-menu-->
+
 
     <header class="header">
         <div class="container">
@@ -48,7 +99,7 @@
                             <li class="menu_nav">Правила</li>
                             <li class="menu_nav">Форум</li>
                             <li class="menu_nav">Донат</li>
-                            <li class="menu_nav">.shot</li>
+                            <li class="menu_nav">{{ .Login }}</li>
                         </ul>
                     </div>
                 </div>
@@ -57,106 +108,71 @@
     </header>
 
     <section class="section">
+        <div class="banner-account"></div>
         <div class="container">
-
-            <!--
-                На 429 строке, стили block-accept-message.
-                На 437 строке, стили block-noaccept-message.
-                На 444 строке, стили block-expectation-message
-            -->
-            <div class="block-message-account">
-                <div class="block-accept-message">
-                    <p class="text-message">Ваш персонаж одобрен администрацией.</p>
-                </div>
-                <div class="block-noaccept-message">
-                    <p class="text-message">Ваш персонаж отклонён. Причина отклонения: Слабая квента.</p>
-                </div>
-                <div class="block-ban-message">
-                    <p class="text-message">Ваш персонаж забанен. Причина бана: Нарушение правил.</p>
-                </div>
-                <div class="block-expectation-message">
-                    <p class="text-message">Ваш персонаж находится на одобрении у администрации.</p>
-                </div>
-            </div>
-
-            <div class="block-retest">
-                <div class="block-text-inform-retest">
-                    <p class="text-retest">
-                        Вы были отправлены на РЕ-ТЕСТ персонажа.
-                    </p>
-                    <h3 class="opis-retest">По причине: Многократных нарушений правил.</h3>
-                </div>
-                <div class="block-btn-retest">
-                    <button class="btn-retest">ПРОЙТИ РЕ-ТЕСТ</button>
-                </div>
-            </div>
-
-            <div class="block-warning">
-
-            </div>
-
-            <div class="block-banner-player">
-                <h1 class="lk-player">ЛИЧНЫЙ КАБИНЕТ</h1>
-                <h3 class="nickname">Houp_Stewart</h3>
-            </div>
-
-            <div class="row">
-                <!--one block-->
-                <div class="col-md-6">
-                    <div class="block-static-one">
-                        <div class="block-name-one">
-                            <h2 class="name-one">СТАТИСТИКА ПЕРСОНАЖА</h2>
-                        </div>
-                        <div class="block-information-one">
-                            <h3 class="inform-one">Сетевой  статус:</h3>
-                            <h3 class="inform-one">Номер бизнеса:</h3>
-                            <h3 class="inform-one">Кол-во игровой валюты:</h3>
-                            <h3 class="inform-one">Кол-во машин на аккаунте:</h3>
-                            <h3 class="inform-one">Номер телефона:</h3>
-                            <h3 class="inform-one">Кол-во предупреждений:</h3>
-                        </div>
-                    </div>
-                </div>
-                <!--two block-->
-                <div class="col-md-6">
-                    <div class="block-static-two">
-                        <div class="block-name-two">
-                            <h2 class="name-two">НОМЕР АККАУНТА:</h2>
-                        </div>
-                        <div class="block-information-two">
-                            <h3 class="inform-two">Национальность:</h3>
-                            <h3 class="inform-one">Возраст:</h3>
-                            <h3 class="inform-one">Наличие лицензий:</h3>
-                            <h3 class="inform-one">Место жительство:</h3>
-                            <h3 class="inform-one">Вип-статус:</h3>
-                            <h3 class="inform-one">Номер дома:</h3>
-                        </div>
-                    </div>
-                </div>
+            <div class="name-block-lk">
+                <h1 class="lk-name">ЛИЧНЫЙ КАБИНЕТ</h1>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <div class="block-story-player">
-                        <div class="block-flex-kventa">
-                            <div class="block-name-kventa">
-                                <h3 class="kventa">КВЕНТА ПЕРСОНАЖА</h3>
-                            </div>
-                            <div class="block-pencil">
-                                <i class="fa-solid fa-pencil"></i>
-                            </div>
+                <div class="col-md-6">
+                    <div class="block-information">
+                        <div class="block-information-name">
+                            <h5 class="name-account">{{ .Login }}</h5>
                         </div>
-                        <div class="block-name-story">
-                            <p class="story-player">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                            </p>
+                        <div class="block-information-static">
+                            <div class="block-name-static">
+                                <h5 class="inform-name">СТАТИСТИКА</h5>
+                            </div>
+                            <div class="container-block-information">
+                                <h5 class="inform">Форумный аккаунт:</h5>
+                                <h5 class="inform">Кол-во персонажей: 1/4</h5>
+                                <h5 class="inform">Донат монеты:</h5>
+                                <h5 class="inform">Почта: {{ .Email }}</h5>
+
+                                <div class="block-btn-settings">
+                                    <button class="btn-settings" id="btn-settings" type="button">НАСТРОЙКИ АККАУНТА</button>
+                                </div>
+                                <div class="block-btn-logout">
+                                    <button class="btn-logout" type="button">ВЫЙТИ ИЗ АККАУНТА</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-6">
+
+                    <!--Окно регистрации персонажа и сдодержание блоков персонажей-->
+                    <div class="blocks-create-and-join-player">
+                        <div class="block-create-player">
+                            <div class="block-create-information">
+                                <p class="text-information">
+                                    Для того чтобы создать<br>
+                                    персонажа, нажмите на кнопку,<br>
+                                    и пройдите тест.<br>
+                                </p>
+                            </div>
+                            <div class="block-btn-create-player">
+                                <button class="btn-create-player">СОЗДАТЬ ПЕРСОНАЖА</button>
+                            </div>
+                        </div>
+
+                        <div class="block-player">
+                            <div class="up-block-name">
+                                <h5 class="up-name-player">Houp_Stewart</h5>
+                            </div>
+                        </div>
+                        <div class="block-player">
+                            <div class="up-block-name">
+                                <h5 class="up-name-player">Houp_Stewart</h5>
+                            </div>
+                        </div>
+                        <div class="block-player">
+                            <div class="up-block-name">
+                                <h5 class="up-name-player">Houp_Stewart</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/-->
                 </div>
             </div>
         </div>
@@ -175,7 +191,8 @@
     </footer>
 
     <script src="https://kit.fontawesome.com/fe0c420bba.js" crossorigin="anonymous"></script>
-    <script src="src/jquery-3.6.0.min.js"></script>
-    <script src="src/app.js"></script>
+    <script src="../static/lk/src/jquery-3.6.0.min.js"></script>
+    <script src="../static/lk/src/app.js"></script>
 </body>
 </html>
+{{ end }}
