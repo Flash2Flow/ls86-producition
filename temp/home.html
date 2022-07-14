@@ -1,0 +1,394 @@
+{{ define "home" }}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/assets/favicon.png" type="image/png">
+    <!--fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!--css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/style.min.css">
+    <title>LS86</title>
+    <!--awesome-->
+    <script src="https://kit.fontawesome.com/fe0c420bba.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <!-- ==== ERROR ==== -->
+    <div class="block-error">
+        <div class="block-error-name">
+            <h1 class="name-error">Планшетное разрешение пока что не доступно!</h1>
+        </div>
+    </div>
+
+    <!-- ==== who game blok`s opacity ==== -->
+    <div class="up-block" id="up-block-rule-server">
+        <div class="container">
+            <div class="flex-block">
+                <div class="name-block">
+                    <h3 class="name-block-rule-server">#ПРАВИЛА СЕРВЕРА</h3>
+                </div>
+                <div class="close-block">
+                    <h3 class="button-close-game" id="close-rule-server">X</h3>
+                </div>
+            </div>
+            <div class="text-block">
+                <p class="text-block-server">В правилах на нашем сервере, вы можете ознакомиться с их пунктами и придерживаться им. Также рекомендую перед началом игры/регистрации аккаунта ознакомиться с ними.</p>
+            </div>
+            <div class="btn-block">
+                <a href="#" class="btn-server" onclick="dev()">ПРОЧИТАТЬ!</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="up-block" id="up-block-rule-created">
+        <div class="container">
+            <div class="flex-block">
+                <div class="name-block">
+                    <h3 class="name-block-rule-server">#СОЗДАТЬ АККАУНТ</h3>
+                </div>
+                <div class="close-block">
+                    <h3 class="button-close-game" id="close-created-server">X</h3>
+                </div>
+            </div>
+            <div class="text-block">
+                <p class="text-block-server">Перед созданием аккаунта, мы настоятельно рекомендуем прочесть правила игрового режима на сервере. Когда ознакомились с правилами, нажимайте на кнопку создать и пройдите UCP тест, для подтверждения ваших навыков и познаний в ролевых ситуациях.</p>
+            </div>
+            <div class="btn-block">
+                <a href="#" class="btn-server" onclick="dev()">СОЗДАТЬ!</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="up-block" id="up-block-rule-join">
+        <div class="container">
+            <div class="flex-block">
+                <div class="name-block">
+                    <h3 class="name-block-rule-server">#ЗАЙТИ НА СЕРВЕР</h3>
+                </div>
+                <div class="close-block">
+                    <h3 class="button-close-game" id="close-join-server">X</h3>
+                </div>
+            </div>
+            <div class="text-block">
+                <p class="text-block-server">После всех предыдущих действий, вы сможете скопировать IP сервера и присоединиться на сервер.<br>IP:12.0.0:3000</p>
+            </div>
+            <div class="btn-block">
+                <a href="#" class="btn-server" onclick="dev()">ЗАЙТИ!</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- === block accept and not accepted login === -->
+    <div id="accepted">
+        <div class="accepted">
+            <div class="accepted-name-icon" id="accepted-name-icon">
+               <i class="fa-solid fa-check style-icon"></i>
+            </div>
+            <div class="accepted-name" id="accepted-name">
+                <h4 class="accepted-block-name">Вы авторизовались</h4>
+            </div>
+        </div>
+    </div>
+
+        <div id="no-accepted-block">
+            <div class="no-accepted">
+                <div class="no-accepted-name-icon" id="no-accepted-name-icon">
+                    <i class="fa-solid fa-exclamation no-style-icon"></i>
+                </div>
+                <div class="no-accepted-name" id="no-ccepted-name">
+                    <h4 class="no-accepted-block-name">Не верные данные</h4>
+                </div>
+            </div>
+        </div>
+
+
+    <!-- === block accept and not accepted registration === -->
+    <div id="accepted-registration">
+        <div class="accepted">
+            <div class="accepted-name-icon" id="accepted-name-icon">
+               <i class="fa-solid fa-check style-icon"></i>
+            </div>
+            <div class="accepted-name" id="accepted-name">
+                <h4 class="accepted-block-name">Вы зарегистрировались</h4>
+            </div>
+        </div>
+    </div>
+
+        <div id="no-accepted-block-registration">
+            <div class="no-accepted">
+                <div class="no-accepted-name-icon" id="no-accepted-name-icon">
+                    <i class="fa-solid fa-exclamation no-style-icon"></i>
+                </div>
+                <div class="no-accepted-name" id="no-ccepted-name">
+                    <h4 class="no-accepted-block-name">Поля не заполнены</h4>
+                </div>
+            </div>
+        </div>
+
+
+    <div class="block_join" id="block_join">
+        <div class="block_flex">
+            <div class="block_image_project">
+                <div class="name_block_auth">
+
+                </div>
+            </div>
+
+            <!-- === AUTHORIZATION === -->
+            <div class="block_auth" id="block_auth">
+                <div class="block_container">
+                    <div class="block-close-menu">
+                        <h5 class="close-menu" id="close-menu-auth">x</h5>
+                    </div>
+                    <div class="name_block_auth">
+                        <h3 class="auth_name">авторизация</h3>
+                    </div>
+                    <div class="name_block_down">
+                        <h5 class="down_name">Для входа в аккаунт, заполните следующие поля.</h5>
+                    </div>
+                    <form class="inputs_block" method="GET" action="/">
+                        <div class="block_input_login">
+                            <input type="text" name="login" id="authlogin" class="login_input" placeholder="Введите логин">
+                        </div>
+                        <div class="block_input_password">
+                            <input type="password" name="password" id="authpassword" class="password_input" placeholder="Введите пароль">
+                        </div>
+                        <div class="btn_login_account">
+                            <button type="button" id="auth" class="btn_login" id="various-actions">Войти</button>
+                        </div>
+                    </form>
+                    <div class="new_account">
+                        <h5 class="created-account">У вас нету аккаунта? <a id="reg" class="reg">Зарегистрируйте его.</a></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="block_created" id="block_created">
+        <div class="block_flex">
+            <div class="block_image_project">
+                <div class="name_block_auth">
+
+                </div>
+            </div>
+     <!-- === REGISTRATION === -->
+     <div class="block_reg" id="block_reg">
+        <div class="block_container">
+            <div class="block-close-menu">
+                <h5 class="close-menu" id="close-menu-reg">x</h5>
+            </div>
+            <div class="name_block_auth_created">
+                <h3 class="auth_name">регистрация</h3>
+            </div>
+            <div class="name_block_down_created">
+                <h5 class="down_name">Для создания аккаунта, заполните следующие поля.</h5>
+            </div>
+            <form class="inputs_block_reg" method="POST" action="/">
+                <div class="block_input_login_created">
+                    <input type="text" name="login" id="reglogin" class="login_input" placeholder="Введите ваш логин">
+                </div>
+                <div class="block_input_email_created">
+                    <input type="email" name="email" id="regemail" class="login_input" placeholder="Введите ваш email">
+                </div>
+                <div class="block_input_password_created">
+                    <input type="password" name="password" id="regpassword" class="password_input" placeholder="Введите ваш пароль">
+                </div>
+                <div class="block_input_repassword_created">
+                    <input type="password" id="regrepassword" class="password_input" placeholder="Повторите ваш пароль">
+                </div>
+                <div class="btn_login_account_created">
+                    <button type="button" id="regs" class="btn_login_created">Зарегистрироваться</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+    <!-- ==== burger-menu ==== -->
+    <div class="burger-menu" id="burger-menu">
+        <div class="burger-container">
+            <div class="block-close-menu">
+                <h5 class="close-menu" id="close-menu">x</h5>
+            </div>
+            <div class="burger-menu-nav">
+                <ul class="burger-menu-open-nav">
+                    <a href="#"><li class="menu_nav"onclick="dev()">Правила</li></a>
+                    <a href="#"><li class="menu_nav"onclick="dev()">Форум</li></a>
+                    <a href="#"><li class="menu_nav"onclick="dev()">Донат</li></a>
+                    <a href="#"><li class="menu_nav" id="active_block_join_one">Войти</li></a>
+                </ul>
+            </div>
+            <div class="block_social">
+                <a href="https://vk.com/lossantos86" target="_blank"><i class="fa-brands fa-vk vk-hover"></i></a>
+                <a href="discord.gg/gRJv2Hr7" target="_blank"><i class="fa-brands fa-discord discord-hover"></i></a>
+            </div>
+            <div class="name_project_site">
+                <h5 class="name_project">@los santos 86</h5>
+            </div>
+        </div>
+    </div>
+    <!-- ==== /burger-menu ==== -->
+
+
+
+
+
+    <!--Основная структура DOM-элементов-->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="header_logo">
+                        <h1 class="header_name_logo"onclick="dev()">LS86</h1>
+                    </div>
+                </div>
+                <div class="offset-md-1 col-md-2">
+                    <div class="header_online">
+                        <div class="header_indicator_online"></div>
+                        <h1 class="header_colv_online">0/100</h1>
+                    </div>
+                </div>
+                <div class="offset-md-2 col-md-5">
+                    <div class="header_menu">
+
+                        <!-- ==== burger-button ==== -->
+                        <div class="burger-button" id="burger-button">
+                            <div class="burger-line-one"></div>
+                            <div class="burger-line-two"></div>
+                            <div class="burger-line-three"></div>
+                        </div>
+                        <!-- /==== burger-button ==== -->
+
+                        <ul class="menu">
+                            <a href="#"><li class="menu_nav"onclick="dev()">Правила</li></a>
+                            <a href="#"><li class="menu_nav"onclick="dev()">Форум</li></a>
+                            <a href="#"><li class="menu_nav"onclick="dev()">Донат</li></a>
+                            <a href="#"><li class="menu_nav" id="active_block_join_two">Войти</li></a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="section_block">
+                        <h1 class="section_name_project" id="section_name_project"></h1>
+                    </div>
+                    <div class="section_info_block">
+                        <p class="text_one">
+                            Добро пожаловать, друг. ~<br>
+                            Для того, чтобы поиграть на нашем сервере необходимо
+                            пройти UCP-регистрацию, которая позволит создать нам своё,
+                            уютное, комьюнити и объединить игроков по всему СНГ и не 
+                            только!
+                        </p>
+                    </div>
+                    <div class="block-link-btn">
+                        <a href="#section_who_game" class="btn" id="">НАЧАТЬ ИГРАТЬ!</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="block_img_welcom">
+                        <img src="../static/assets/welcom.png" alt="" class="size-welcom">
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </section>
+    
+    <section class="section_about">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="block_image" id="block_image">
+                        <img src="../static/assets/bas.png" class="size-bas">
+                    </div>
+                </div>
+                <div class="offset-md-1 col-md-7">
+                    <div class="about_project" id="about_project">
+                        <h1 class="about_name">о нас!</h1>
+                        <div class="block_fucking_text">
+                            <p class="about_text" id="about_text">
+                                Los Santos 86 - это UCP проект на
+                                платформе SA:MP 0.3.7, который
+                                позволит будущим игрокам
+                                прочувствовать атмосферу 80-ых годов
+                                в любимой игре и вновь оказаться на
+                                стороне криминала или полиции,
+                                начинающих IT-шников из гаража или
+                                коммерсантов, музыкантов или реднеков
+                                в Лос-Сантосе.
+                            </p>
+                        </div>
+                        <a href="#" class="read_lore"onclick="dev()">ПРОЧИТАТЬ ЛОР!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section_who_game" id="section_who_game">
+        <div class="container">
+            <h1 class="who_game_name">КАК НАЧАТЬ ИГРАТЬ?</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="rule_server">
+                        <h5 class="rule_server_name">правила сервера</h5>
+                        <div class="block_btn_one">
+                            <button type="button" class="click_rule" id="click_rule">подробнее!</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="create_account">
+                        <h5 class="create_account_name">создать аккаунт</h5>
+                        <div class="block_btn_two">
+                            <button class="click_create" id="click_create">подробнее!</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="join_game">
+                        <h5 class="join_game_name">зайти на сервер</h5>
+                        <div class="block_btn_three">
+                            <button class="click_join" id="click_join">подробнее!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="block_social">
+            <a href="https://vk.com/lossantos86" target="_blank"><i class="fa-brands fa-vk vk-hover"></i></a>
+            <a href="discord.gg/gRJv2Hr7" target="_blank"><i class="fa-brands fa-discord discord-hover"></i></a>
+            </div>
+            <div class="name_project_site">
+                <h5 class="name_project">@los santos 86</h5>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/typeit@8.4.0/dist/index.umd.js"></script>
+    <script src="../static/src/jquery-3.6.0.min.js"></script>
+    <script src="../static/src/app.js"></script>
+    <script src="../static/src/ajax.js"></script>
+
+    
+</body>
+</html>
+{{ end }}
