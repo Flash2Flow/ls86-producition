@@ -17,7 +17,7 @@ func main() {
 	router.HandleFunc("/ucp", ucp)
 	router.HandleFunc("/auth/{login}/{token}", auth).Methods("GET")
 	//token rest must be in headers
-	router.HandleFunc("/ucp/create", UcpCreate)
+	router.HandleFunc("/rest/ucp/create/{login}/{nickname}/{floor}/{age}/{nazi}/{skin}/{country}/{quenta}", UcpCreate)
 	router.HandleFunc("/rest/get/user/{criterion}/{value}", GetOneUser).Methods("GET") //return one user
 	router.HandleFunc("/rest/get/users", GetAllUsers).Methods("GET")                   //return 100 users
 	router.HandleFunc("/rest/auth/{login}/{password}", Auth).Methods("GET")

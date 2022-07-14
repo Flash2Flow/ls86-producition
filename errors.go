@@ -9,6 +9,7 @@ type CustomErr struct {
 	ErrNoErrors          error
 	ErrLoginAlreadyUsing error
 	ErrEmailAlreadyUsing error
+	ErrUcpFullPerson     error
 }
 
 var (
@@ -19,5 +20,6 @@ var (
 		ErrLoginAlreadyUsing: errors.New("Error, this login already using!"),
 		ErrEmailAlreadyUsing: errors.New("Error, this email already using!"),
 		ErrNoErrors:          errors.New("No errors!"),
+		ErrUcpFullPerson:     errors.New("Full person!"),
 	}
 )

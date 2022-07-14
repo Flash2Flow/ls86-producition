@@ -190,16 +190,16 @@ func (d *Data) UcpGetPers(value string) (*Person, error) {
 }
 
 func getEmptyPers(u *User) string {
-	if u.PersonOne == " " {
+	if u.PersonOne == "" {
 		return "PersonOne"
 	} else {
-		if u.PersonTwo == " " {
+		if u.PersonTwo == "" {
 			return "PersonTwo"
 		} else {
-			if u.PersonThree == " " {
-				return "PersonFree"
+			if u.PersonThree == "" {
+				return "PersonThree"
 			} else {
-				if u.PersonFour == " " {
+				if u.PersonFour == "" {
 					return "PersonFour"
 				} else {
 					return "PersonFull"
@@ -213,7 +213,7 @@ func (d *Data) UpdateUser(title string, login string, person string, value strin
 	switch title {
 	case "UserUcp":
 		switch person {
-		case "one":
+		case "PersonOne":
 			_, err := data.FindOne("login", login)
 			if err != customErr.ErrNotFound {
 				db := data.Connection()
@@ -223,7 +223,7 @@ func (d *Data) UpdateUser(title string, login string, person string, value strin
 				log.Println(err)
 				return err
 			}
-		case "two":
+		case "PersonTwo":
 			_, err := data.FindOne("login", login)
 			if err != customErr.ErrNotFound {
 				db := data.Connection()
@@ -233,7 +233,7 @@ func (d *Data) UpdateUser(title string, login string, person string, value strin
 				log.Println(err)
 				return err
 			}
-		case "three":
+		case "PersonThree":
 			_, err := data.FindOne("login", login)
 			if err != customErr.ErrNotFound {
 				db := data.Connection()
@@ -243,7 +243,7 @@ func (d *Data) UpdateUser(title string, login string, person string, value strin
 				log.Println(err)
 				return err
 			}
-		case "four":
+		case "PersonFour":
 			_, err := data.FindOne("login", login)
 			if err != customErr.ErrNotFound {
 				db := data.Connection()
@@ -273,18 +273,22 @@ func (d *Data) UcpLimitPers(login string) (string, error) {
 	return " ", nil
 }
 
-func (d *Data) UcpCreatePers(nickname string, login string, floor string, age string, nazi string, skin string, country string, quenta string) *Person {
+func (d *Data) UcpCreatePers(nickname string, login string, floor string, age string, nazi string, skin string, country string, quenta string) (*Person, error) {
 	db := data.Connection()
-	db.CreateTable(Person{})
+	//db.CreateTable(Person{})
 	persVal, _ := data.UcpLimitPers(login)
-	data.UpdateUser("UserUcp", login, persVal, nickname)
+	if persVal == "PersonFull" {
+		return nil, customErr.ErrUcpFullPerson
+	} else {
+		data.UpdateUser("UserUcp", login, persVal, nickname)
 
-	person := &Person{Name: nickname, Login: login, Floor: floor, Age: age, Nazi: nazi, Skin: skin, Country: country, Quenta: quenta, State: state.Waiting}
-	db.Create(person)
+		person := &Person{Name: nickname, Login: login, Floor: floor, Age: age, Nazi: nazi, Skin: skin, Country: country, Quenta: quenta, State: state.Waiting}
+		db.Create(person)
 
-	defer db.Close()
-	logs.CreatePerson(person)
-	return person
+		defer db.Close()
+		logs.CreatePerson(person)
+		return person, nil
+	}
 }
 
 func (d *Data) UcpUpdatePers(login string, state string) {

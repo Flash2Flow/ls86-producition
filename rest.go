@@ -172,7 +172,12 @@ func UcpCreate(w http.ResponseWriter, r *http.Request) {
 		if token == user.AuthToken {
 			_, err := data.UcpGetPers(nickname)
 			if err == customErr.ErrNotFound {
-				data.UcpCreatePers(nickname, login, floor, age, nazi, skin, country, quenta)
+				_, err := data.UcpCreatePers(nickname, login, floor, age, nazi, skin, country, quenta)
+				if err == customErr.ErrUcpFullPerson {
+					log.Println(customErr.ErrUcpFullPerson.Error())
+					w.WriteHeader(http.StatusBadRequest)
+					fmt.Fprintf(w, customErr.ErrUcpFullPerson.Error())
+				}
 			} else {
 				//err person already have
 				log.Println(customErr.ErrLoginAlreadyUsing.Error())
