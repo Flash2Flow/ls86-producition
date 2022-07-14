@@ -83,7 +83,7 @@ func lkuser(w http.ResponseWriter, r *http.Request) {
 
 		temp.ExecuteTemplate(w, "lk_user", u)
 	} else {
-		log.Println("LK ERROR")
+		log.Println("LK_USER ERROR")
 		temp, err := template.ParseFiles("temp/redirects/toHome.html")
 
 		if err != nil {

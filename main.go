@@ -14,6 +14,7 @@ func main() {
 	router.HandleFunc("/home", lk)
 	router.HandleFunc("/home/{user}", lkuser)
 	router.HandleFunc("/exit", exit)
+	router.HandleFunc("/ucp", ucp)
 	router.HandleFunc("/auth/{login}/{token}", auth).Methods("GET")
 	//token rest must be in headers
 	router.HandleFunc("/rest/get/user/{criterion}/{value}", GetOneUser).Methods("GET") //return one user

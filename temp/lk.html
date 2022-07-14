@@ -152,7 +152,15 @@
                                 </p>
                             </div>
                             <div class="block-btn-create-player">
-                                <button class="btn-create-player">СОЗДАТЬ ПЕРСОНАЖА</button>
+                                <button class="btn-create-player" id="btn-redirect-ucp">СОЗДАТЬ ПЕРСОНАЖА</button>
+                            </div>
+                        </div>
+
+      <!--
+
+                        <div class="block-player">
+                            <div class="up-block-name">
+                                <h5 class="up-name-player">Houp_Stewart</h5>
                             </div>
                         </div>
 
@@ -161,16 +169,14 @@
                                 <h5 class="up-name-player">Houp_Stewart</h5>
                             </div>
                         </div>
+
                         <div class="block-player">
                             <div class="up-block-name">
                                 <h5 class="up-name-player">Houp_Stewart</h5>
                             </div>
                         </div>
-                        <div class="block-player">
-                            <div class="up-block-name">
-                                <h5 class="up-name-player">Houp_Stewart</h5>
-                            </div>
-                        </div>
+
+      -->
                     </div>
                     <!--/-->
                 </div>
@@ -196,8 +202,13 @@
     <script>
         $('#exit').click(function(){
   
-  window.location.replace('http://localhost:3030/exit')
-});
+            window.location.replace('http://localhost:3030/exit')
+        });
+
+        $('#btn-redirect-ucp').click(function(){
+  
+            window.location.replace('http://localhost:3030/ucp')
+        });
     </script>
 </body>
 </html>
