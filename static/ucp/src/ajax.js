@@ -30,7 +30,7 @@ $('#btn-ucp').on('click', function(){
             var obj = JSON.parse(data);
             $('#accepted').show(200).delay(0).slideUp(1000);
             setTimeout(function(){
-                window.location.replace("http://localhost:3030/home/" + nickname);
+                window.location.replace("http://ls-86-rp.ru/home/" + nickname);
                 
             }, 1500);
         },

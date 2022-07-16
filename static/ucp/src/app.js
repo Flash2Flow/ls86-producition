@@ -3,10 +3,10 @@ $('#open-menu-nav').on('click', function(){
     return false;
 })
 $('#menu_nav_mobile').on('click', function(){
-    window.location.replace("http://localhost:3030/home/");
+    window.location.replace("http://ls-86-rp.ru/home/");
 })
 $('#menu_nav').on('click', function(){
-    window.location.replace("http://localhost:3030/home/");
+    window.location.replace("http://ls-86-rp.ru/home/");
 })
 
 
