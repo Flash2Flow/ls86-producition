@@ -1,17 +1,16 @@
 {{ define "home" }}
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../static/assets/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="../static/home/assets/favicon.png" type="image/png">
     <!--fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <!--css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/css/style.min.css">
+    <link rel="stylesheet" href="../static/home/css/style.min.css">
     <title>LS86</title>
     <!--awesome-->
     <script src="https://kit.fontawesome.com/fe0c420bba.js" crossorigin="anonymous"></script>
@@ -140,7 +139,7 @@
             </div>
 
             <!-- === AUTHORIZATION === -->
-            <div class="block_auth" id="block_auth">
+            <div class="block_auth">
                 <div class="block_container">
                     <div class="block-close-menu">
                         <h5 class="close-menu" id="close-menu-auth">x</h5>
@@ -151,14 +150,14 @@
                     <div class="name_block_down">
                         <h5 class="down_name">Для входа в аккаунт, заполните следующие поля.</h5>
                     </div>
-                    <form class="inputs_block" method="GET" action="/">
+                    <form class="inputs_block">
                         <div class="block_input_login">
-                            <input type="text" name="login" id="authlogin" class="login_input" placeholder="Введите логин">
+                            <input type="text" name="login" onkeyup="return proverka(this);" maxlength="30" id="login_join" class="login_input" placeholder="Введите логин">
                         </div>
                         <div class="block_input_password">
-                            <input type="password" name="password" id="authpassword" class="password_input" placeholder="Введите пароль">
+                            <input type="password" name="password" onkeyup="return proverka(this);" maxlength="30" id="password_join" class="password_input" placeholder="Введите пароль">
                         </div>
-                        <div class="btn_login_account">
+                        <div class="btn_login_account" id="btn_auth_form">
                             <button type="button" id="auth" class="btn_login" id="various-actions">Войти</button>
                         </div>
                     </form>
@@ -190,23 +189,30 @@
             <div class="name_block_down_created">
                 <h5 class="down_name">Для создания аккаунта, заполните следующие поля.</h5>
             </div>
-            <form class="inputs_block_reg" method="POST" action="/">
+
+            <form class="inputs_block_reg" id="form">
+
                 <div class="block_input_login_created">
-                    <input type="text" name="login" id="reglogin" class="login_input" placeholder="Введите ваш логин">
+                    <input type="text" id="login" name="login" onkeyup="return proverka(this);" maxlength="30" class="login_input" placeholder="Введите ваш логин">
                 </div>
+
                 <div class="block_input_email_created">
-                    <input type="email" name="email" id="regemail" class="login_input" placeholder="Введите ваш email">
+                    <input type="email" id="email" name="email" onkeyup="return proverka(this);" class="login_input" placeholder="Введите ваш email">
                 </div>
+
                 <div class="block_input_password_created">
-                    <input type="password" name="password" id="regpassword" class="password_input" placeholder="Введите ваш пароль">
+                    <input type="password" id="password" name="password" onkeyup="return proverka(this);" maxlength="30" class="password_input" placeholder="Введите ваш пароль">
                 </div>
+
                 <div class="block_input_repassword_created">
-                    <input type="password" id="regrepassword" class="password_input" placeholder="Повторите ваш пароль">
+                    <input type="password" id="repassword" onkeyup="return proverka(this);" name="repassword" class="password_input" placeholder="Повторите ваш пароль">
                 </div>
+
                 <div class="btn_login_account_created">
-                    <button type="button" id="regs" class="btn_login_created">Зарегистрироваться</button>
+                    <button type="button" id="createdbtn" class="btn_login_created">Зарегистрироваться</button>
                 </div>
             </form>
+
         </div>
     </div>
 </div>
@@ -301,7 +307,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="block_img_welcom">
-                        <img src="../static/assets/welcom.png" alt="" class="size-welcom">
+                        <img src="../static/home/assets/welcom.png" alt="" class="size-welcom">
                     </div>
                 </div>     
             </div>
@@ -313,7 +319,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="block_image" id="block_image">
-                        <img src="../static/assets/bas.png" class="size-bas">
+                        <img src="../static/home/assets/bas.png" class="size-bas">
                     </div>
                 </div>
                 <div class="offset-md-1 col-md-7">
@@ -384,10 +390,9 @@
     </footer>
 
     <script src="https://unpkg.com/typeit@8.4.0/dist/index.umd.js"></script>
-    <script src="../static/src/jquery-3.6.0.min.js"></script>
-    <script src="../static/src/app.js"></script>
-    <script src="../static/src/ajax.js"></script>
-
+    <script src="../static/home/src/jquery-3.6.0.min.js"></script>
+    <script src="../static/home/src/app.js"></script>
+    <script src="../static/home/src/ajax.js"></script>
     
 </body>
 </html>

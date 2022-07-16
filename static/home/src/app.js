@@ -1,5 +1,3 @@
-  document.addEventListener('DOMContentLoaded', () => {
-    'use strict';
 
   const print = new TypeIt("#section_name_project", {
     //strings: ["los santos 86"],
@@ -63,7 +61,6 @@ $('#burger-button').on('click', function(){
   $('#burger-menu').show();
   return false;
 })
-
 $('#reg').on('click', function(){
   $('#block_created').show();
   $('#block_join').hide();
@@ -86,12 +83,6 @@ $(document).click( function(event){
     event.stopPropagation();
   });
   
-
-  
-    $('#various-actions').click(function(){
-      $('#no-accepted-block').show(200).delay(3000).slideUp(1000);
-      //$('#accepted').show(200).delay(3000).slideUp(1000);
-    });
 
     function dev(){
       alert('В разработке, чё лезешь то?');
@@ -116,6 +107,10 @@ window.addEventListener('scroll',function(){
   };
 });
 
+function proverka(input) {
+  input.value = input.value.replace(/[',", А-я]/, '');
+  
+  return false;
+};
 
 
-})

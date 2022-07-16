@@ -2,24 +2,37 @@ package main
 
 import "errors"
 
-type CustomErr struct {
-	ErrNotFound          error
-	ErrPasswordWrong     error
-	ErrAccessDenied      error
-	ErrNoErrors          error
-	ErrLoginAlreadyUsing error
-	ErrEmailAlreadyUsing error
-	ErrUcpFullPerson     error
+type Error struct {
+	PasswordWrong    error
+	NotFound         error
+	UserTryBadAuth   error
+	LoginAlreadyHave error
+	EmailAlreadyHave error
+	PersAlreadyHave  error
+	AccessDenied     error
+	FullPersons      error
 }
 
 var (
-	customErr = CustomErr{
-		ErrNotFound:          errors.New("Error, not found!"),
-		ErrPasswordWrong:     errors.New("Error, password wrong!"),
-		ErrAccessDenied:      errors.New("Error, access denied!"),
-		ErrLoginAlreadyUsing: errors.New("Error, this login already using!"),
-		ErrEmailAlreadyUsing: errors.New("Error, this email already using!"),
-		ErrNoErrors:          errors.New("No errors!"),
-		ErrUcpFullPerson:     errors.New("Full person!"),
+	ls86 = LS86{
+		Error: Error{
+			PasswordWrong:    errors.New("Password Wrong!"),
+			NotFound:         errors.New("Not Found!"),
+			UserTryBadAuth:   errors.New("User Try Bad Auth!"),
+			LoginAlreadyHave: errors.New("Login Already Have!"),
+			EmailAlreadyHave: errors.New("Email Already Have!"),
+			AccessDenied:     errors.New("Access Denied!"),
+			FullPersons:      errors.New("Full Persons!"),
+			PersAlreadyHave:  errors.New("Pers Already Have!"),
+		},
+		Data: Data{
+			User:     "root",
+			Password: "537003",
+		},
+		State: State{
+			Allow:    "Allow",
+			Disallow: "Disallow",
+			Waiting:  "Waiting",
+		},
 	}
 )

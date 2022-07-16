@@ -427,7 +427,7 @@ a{
     margin-left: 15px;
 }
 .block-accept-message{
-    //display: none;
+    display: none;
     width: 100%;
     background-color: #259F38;
     @include BoldUpFonts;
@@ -435,7 +435,7 @@ a{
     box-shadow: 0px 0px 20px 0px rgb(83 78 78);
 }
 .block-noaccept-message{
-    //display: none;
+    display: none;
     width: 100%;
     background-color: #9F2525;
     @include BoldUpFonts;
@@ -443,7 +443,7 @@ a{
     box-shadow: 0px 0px 20px 0px rgb(83 78 78);
 }
 .block-ban-message{
-    //display: none;
+    display: none;
     width: 100%;
     background-color: #9F2525;
     @include BoldUpFonts;
@@ -451,7 +451,7 @@ a{
     box-shadow: 0px 0px 20px 0px rgb(83 78 78);
 }
 .block-expectation-message{
-    //display: none;
+    display: none;
     width: 100%;
     background-color: #a98403;
     @include BoldUpFonts;
@@ -459,7 +459,7 @@ a{
     box-shadow: 0px 0px 20px 0px rgb(83 78 78);
 }
 .text-message{
-    //display: none;
+    display: none;
     padding-top: 10px;
     letter-spacing: 1px;
     text-transform: none;
@@ -467,6 +467,7 @@ a{
     margin-left: 20px;
 }
 .block-retest{
+    display: none;
     text-align: center;
     width: 100%;
     background-color: #9F2525;

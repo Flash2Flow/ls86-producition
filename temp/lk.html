@@ -54,7 +54,7 @@
         <div class="container-settings">
             <div class="block-settings-stroke">
                 <div class="block-stroke-email">
-                    <h3 class="stroke-email">Почта: {{ .Email }}</h3>
+                    <h3 class="stroke-email">Почта: {{.Users.Email}}</h3>
                 </div>
                 <div class="block-stroke-password">
                     <h3 class="stroke-password">Пароль: *******</h3>
@@ -70,7 +70,7 @@
                 <li class="menu_nav_mobile">Правила</li>
                 <li class="menu_nav_mobile">Форум</li>
                 <li class="menu_nav_mobile">Донат</li>
-                <li class="menu_nav_mobile">{{ .Login }}</li>
+                <li class="menu_nav_mobile">{{.Users.Login}}</li>
             </div>
         </div>
     <!--/burger-menu-->
@@ -99,7 +99,7 @@
                             <li class="menu_nav">Правила</li>
                             <li class="menu_nav">Форум</li>
                             <li class="menu_nav">Донат</li>
-                            <li class="menu_nav">{{ .Login }}</li>
+                            <li class="menu_nav">{{.Users.Login}}</li>
                         </ul>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                 <div class="col-md-6">
                     <div class="block-information">
                         <div class="block-information-name">
-                            <h5 class="name-account">{{ .Login }}</h5>
+                            <h5 class="name-account">{{.Users.Login}}</h5>
                         </div>
                         <div class="block-information-static">
                             <div class="block-name-static">
@@ -125,15 +125,17 @@
                             </div>
                             <div class="container-block-information">
                                 <h5 class="inform">Форумный аккаунт:</h5>
-                                <h5 class="inform">Кол-во персонажей: 1/4</h5>
-                                <h5 class="inform">Донат монеты:</h5>
-                                <h5 class="inform">Почта: {{ .Email }}</h5>
 
+                                <h5 class="inform">Кол-во персонажей: {{.Count}}</h5>
+
+
+                                <h5 class="inform">Донат монеты:</h5>
+                                <h5 class="inform">Почта: {{.Users.Email}}</h5>
                                 <div class="block-btn-settings">
                                     <button class="btn-settings" id="btn-settings" type="button">НАСТРОЙКИ АККАУНТА</button>
                                 </div>
                                 <div class="block-btn-logout">
-                                    <button class="btn-logout" id="exit" name="exit" type="button">ВЫЙТИ ИЗ АККАУНТА</button>
+                                    <button class="btn-logout" id="btn-exit" type="button">ВЫЙТИ ИЗ АККАУНТА</button>
                                 </div>
                             </div>
                         </div>
@@ -141,6 +143,9 @@
                 </div>
                 <div class="col-md-6">
 
+                    {{ if .Full }}
+
+                    {{ else }}
                     <!--Окно регистрации персонажа и сдодержание блоков персонажей-->
                     <div class="blocks-create-and-join-player">
                         <div class="block-create-player">
@@ -151,32 +156,19 @@
                                     и пройдите тест.<br>
                                 </p>
                             </div>
-                            <div class="block-btn-create-player">
-                                <button class="btn-create-player" id="btn-redirect-ucp">СОЗДАТЬ ПЕРСОНАЖА</button>
+                            <div class="block-btn-create-player" id="btn-create-pers">
+                                <button class="btn-create-player">СОЗДАТЬ ПЕРСОНАЖА</button>
                             </div>
                         </div>
+                    {{ end }}
 
-      <!--
-
-                        <div class="block-player">
+                    {{ range .P }}
+                        <div class="block-player" id="person-block-{{.State_Id}}" name="{{ .Id }}" style="display: block;">
                             <div class="up-block-name">
-                                <h5 class="up-name-player">Houp_Stewart</h5>
+                                <h5 class="up-name-player" id="asd">{{ .Name }}</h5>
                             </div>
                         </div>
-
-                        <div class="block-player">
-                            <div class="up-block-name">
-                                <h5 class="up-name-player">Houp_Stewart</h5>
-                            </div>
-                        </div>
-
-                        <div class="block-player">
-                            <div class="up-block-name">
-                                <h5 class="up-name-player">Houp_Stewart</h5>
-                            </div>
-                        </div>
-
-      -->
+                    {{ end }}
                     </div>
                     <!--/-->
                 </div>
@@ -199,17 +191,6 @@
     <script src="https://kit.fontawesome.com/fe0c420bba.js" crossorigin="anonymous"></script>
     <script src="../static/lk/src/jquery-3.6.0.min.js"></script>
     <script src="../static/lk/src/app.js"></script>
-    <script>
-        $('#exit').click(function(){
-  
-            window.location.replace('http://localhost:3030/exit')
-        });
-
-        $('#btn-redirect-ucp').click(function(){
-  
-            window.location.replace('http://localhost:3030/ucp')
-        });
-    </script>
 </body>
 </html>
 {{ end }}

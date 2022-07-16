@@ -5,15 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../static/ucp/three/assets/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="../static/ucp/assets/favicon.png" type="image/png">
     <!--fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/ucp/three/css/style.min.css">
+    <link rel="stylesheet" href="../static/ucp/css/style.min.css">
     <title>LS86 - 3 ЭТАП</title>
 </head>
 <body>
+
+    <div id="accepted">
+        <div class="accepted">
+            <div class="accepted-name-icon" id="accepted-name-icon">
+               <i class="fa-solid fa-check style-icon"></i>
+            </div>
+            <div class="accepted-name" id="accepted-name">
+                <h4 class="accepted-block-name">Заявление подано!</h4>
+            </div>
+        </div>
+    </div>
+
+        <div id="no-accepted-block">
+            <div class="no-accepted">
+                <div class="no-accepted-name-icon" id="no-accepted-name-icon">
+                    <i class="fa-solid fa-exclamation no-style-icon"></i>
+                </div>
+                <div class="no-accepted-name" id="no-ccepted-name">
+                    <h4 class="no-accepted-block-name">Не верные данные</h4>
+                </div>
+            </div>
+        </div>
 
     <!--burger-menu-->
         <div class="burger-menu" id="burger-menu">
@@ -78,40 +100,40 @@
                     </div>
                 </div>
             </div>
-            <form action="/ucp" method="GET">
+            <form action="">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="block-character-player">
                             <div class="block-nick-name">
-                                <input type="text" class="nick-name" id="pers_name" placeholder="Введите имя персонажа...">
+                                <input type="text" class="nick-name" id="nickname" placeholder="Введите имя персонажа...">
                             </div>
                             <div class="block-age">
-                                <input type="text" class="age" id="pers_age" placeholder="Введите возраст...">
+                                <input type="text" class="age" id="age" placeholder="Введите возраст...">
                             </div>
                             <div class="block-male">
-                                <input type="text" class="male" id="pers_floor" placeholder="Укажите пол...">
+                                <input type="text" class="male" id="floor" placeholder="Укажите пол...">
                             </div>
                             <div class="block-national">
-                                <input type="text" class="national" id="pers_nazi" placeholder="Укажите национальность...">
+                                <input type="text" class="national" id="nazi" placeholder="Укажите национальность...">
                             </div>
                             <div class="block-color">
-                                <input type="text" class="color-face" id="pers_skin" placeholder="Укажите ID скина...">
+                                <input type="text" class="color-face" id="skin" placeholder="Укажите ID скина...">
                             </div>
                             <div class="block-life">
-                                <input type="text" class="life-country" id="pers_country" placeholder="Укажите место рождения...">
+                                <input type="text" class="life-country" id="country" placeholder="Укажите место рождения...">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="block-write-kventa">
                             <div class="container-area-t">
-                                <textarea class="opis" id="pers_quenta" placeholder="Квента персонажа"></textarea>
+                                <textarea class="opis" id="quenta" placeholder="Квента персонажа"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="block-btn-accept-next">
-                    <button class="link-btn" type="button" id="btn-send-ucp">ОТПРАВИТЬ</button>
+                    <button class="link-btn" id="btn-ucp" type="button">ОТПРАВИТЬ</button>
                 </div>
             </form>
         </div>
@@ -130,9 +152,9 @@
     </footer>
 
     <script src="https://kit.fontawesome.com/fe0c420bba.js" crossorigin="anonymous"></script>
-    <script src="../static/ucp/three/src/jquery-3.6.0.min.js"></script>
-    <script src="../static/ucp/three/src/app.js"></script>
-    <script src="../static/ucp/three/src/ajax.js"></script>
+    <script src="../static/ucp/src/jquery-3.6.0.min.js"></script>
+    <script src="../static/ucp/src/app.js"></script>
+    <script src="../static/ucp/src/ajax.js"></script>
 </body>
 </html>
 {{ end }}

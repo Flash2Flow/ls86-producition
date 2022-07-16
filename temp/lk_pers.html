@@ -1,16 +1,16 @@
-{{ define "lk_user" }}
+{{ define "lk_pers" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../static/lk_user/assets/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="../static/lk/assets/favicon.png" type="image/png">
     <!--fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/lk_user/css/style.min.css">
+    <link rel="stylesheet" href="../static/lk_pers/css/style.min.css">
     <title>LS86 - ЛИЧНЫЙ КАБИНЕТ</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
                 <li class="menu_nav_mobile">Правила</li>
                 <li class="menu_nav_mobile">Форум</li>
                 <li class="menu_nav_mobile">Донат</li>
-                <li class="menu_nav_mobile">{{ .Login }}</li>
+                <li class="menu_nav_mobile" id="menu_nav_mobile">{{ .U.Login }}</li>
             </div>
         </div>
     <!--/burger-menu-->
@@ -49,7 +49,7 @@
                             <li class="menu_nav">Правила</li>
                             <li class="menu_nav">Форум</li>
                             <li class="menu_nav">Донат</li>
-                            <li class="menu_nav"> {{ .Login }}</li>
+                            <li class="menu_nav" id="menu_nav">{{ .U.Login }}</li>
                         </ul>
                     </div>
                 </div>
@@ -65,19 +65,32 @@
                 На 437 строке, стили block-noaccept-message.
                 На 444 строке, стили block-expectation-message
             -->
-            <div class="block-message-account">
-                <div class="block-accept-message">
-                    <p class="text-message">Ваш персонаж одобрен администрацией.</p>
+
+            <div class="block-message-account" id="messages-state">
+                {{ if eq .S 1 }}
+                <div class="block-accept-message" id="messages-state-block">
+                    <p class="text-message" id="messages-state-text">Ваш персонаж одобрен администрацией.</p>
                 </div>
-                <div class="block-noaccept-message">
-                    <p class="text-message">Ваш персонаж отклонён. Причина отклонения: Слабая квента.</p>
+                {{ end }}
+
+                {{ if eq .S 2 }}
+                <div class="block-noaccept-message" id="messages-state-block">
+                    <p class="text-message" id="messages-state-text">Ваш персонаж отклонён. Причина отклонения: Слабая квента.</p>
                 </div>
-                <div class="block-ban-message">
-                    <p class="text-message">Ваш персонаж забанен. Причина бана: Нарушение правил.</p>
+                {{ end }}
+
+                {{if eq .S 4 }}
+                <div class="block-ban-message" id="messages-state-block">
+                    <p class="text-message" id="messages-state-text">Ваш персонаж забанен. Причина бана: Нарушение правил.</p>
                 </div>
-                <div class="block-expectation-message">
-                    <p class="text-message">Ваш персонаж находится на одобрении у администрации.</p>
+                {{ end }}
+
+                {{if eq .S 3 }}
+                <div class="block-expectation-message" id="messages-state-block">
+                    <p class="text-message" id="messages-state-text">Ваш персонаж находится на одобрении у администрации.</p>
                 </div>
+                {{ end }}
+
             </div>
 
             <div class="block-retest">
@@ -98,7 +111,7 @@
 
             <div class="block-banner-player">
                 <h1 class="lk-player">ЛИЧНЫЙ КАБИНЕТ</h1>
-                <h3 class="nickname">Houp_Stewart</h3>
+                <h3 class="nickname">{{ .P.Name }}</h3>
             </div>
 
             <div class="row">
@@ -122,13 +135,13 @@
                 <div class="col-md-6">
                     <div class="block-static-two">
                         <div class="block-name-two">
-                            <h2 class="name-two">НОМЕР АККАУНТА:</h2>
+                            <h2 class="name-two">НОМЕР АККАУНТА: {{ .P.Id }}</h2>
                         </div>
                         <div class="block-information-two">
-                            <h3 class="inform-two">Национальность:</h3>
-                            <h3 class="inform-one">Возраст:</h3>
+                            <h3 class="inform-two">Национальность: {{ .P.Nazi }}</h3>
+                            <h3 class="inform-one">Возраст: {{ .P.Age }}</h3>
                             <h3 class="inform-one">Наличие лицензий:</h3>
-                            <h3 class="inform-one">Место жительство:</h3>
+                            <h3 class="inform-one">Место жительство: {{ .P.Country }}</h3>
                             <h3 class="inform-one">Вип-статус:</h3>
                             <h3 class="inform-one">Номер дома:</h3>
                         </div>
@@ -148,13 +161,7 @@
                         </div>
                         <div class="block-name-story">
                             <p class="story-player">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati, sequi adipisci! Aut quos explicabo voluptates animi modi saepe dignissimos recusandae, doloremque blanditiis voluptatum quae distinctio? Quisquam distinctio rerum molestias commodi?
+                                {{ .P.Quenta }}
                             </p>
                         </div>
                     </div>
@@ -176,8 +183,8 @@
     </footer>
 
     <script src="https://kit.fontawesome.com/fe0c420bba.js" crossorigin="anonymous"></script>
-    <script src="../static/lk_user/jquery-3.6.0.min.js"></script>
-    <script src="../static/lk_user/src/app.js"></script>
+    <script src="../static/lk_pers/src/jquery-3.6.0.min.js"></script>
+    <script src="../static/lk_pers/src/app.js"></script>
 </body>
 </html>
 {{ end }}

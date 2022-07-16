@@ -2,10 +2,50 @@ $('#open-menu-nav').on('click', function(){
     $('#burger-menu').show();
     return false;
 })
+$('#person-block-1').on('click', function(){
+  console.log("press")
+  var name = $("#person-block-1").attr("name");
+  window.location.replace("http://localhost:3030/home/" + name);
+})
+$('#menu_nav_mobile').on('click', function(){
+  window.location.replace("http://localhost:3030/home/");
+})
+$('#menu_nav').on('click', function(){
+  window.location.replace("http://localhost:3030/home/");
+})
+$('#person-block-2').on('click', function(){
+  console.log("press")
+  var name = $("#person-block-2").attr("name");
+  window.location.replace("http://localhost:3030/home/" + name);
+})
+
+$('#person-block-3').on('click', function(){
+  console.log("press")
+  var name = $("#person-block-3").attr("name");
+  window.location.replace("http://localhost:3030/home/" + name);
+})
+$('#person-block-4').on('click', function(){
+  console.log("press")
+  var name = $("#person-block-4").attr("name");
+  window.location.replace("http://localhost:3030/home/" + name);
+})
+
+
+
+$('#btn-exit').on('click', function(){
+  window.location.replace("http://localhost:3030/exit");
+})
 $('#btn-settings').on('click', function(){
     $('#block-settings-account').show(300);
     return false;
 })
+$('#btn-create-pers').on('click', function(){
+  window.location.replace("http://localhost:3030/ucp");
+  return false;
+})
+$(document).ready(function() {
+  $('#person-block').show(300);
+});
 $('#pencil').on('click', function(){
     $('#block-remove-password').show(300);
     $('#block-settings-account').hide();
