@@ -54,7 +54,7 @@ type State struct {
 
 func (d *Data) Connection() (db *gorm.DB) {
 	db, err := gorm.Open("mysql",
-		"root:537003@/ls86?charset=utf8&parseTime=True&loc=Local")
+		"root:537003Sa$@/ls86?charset=utf8&parseTime=True&loc=Local")
 
 	if err != nil {
 		fmt.Println(err)
