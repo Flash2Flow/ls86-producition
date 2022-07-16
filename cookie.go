@@ -26,14 +26,14 @@ func auth(w http.ResponseWriter, r *http.Request) {
 						Name:     "Id",
 						Value:    str,
 						MaxAge:   3000,
-						Domain:   "localhost",
+						Domain:   "ls-86-rp.ru",
 						SameSite: http.SameSiteLaxMode,
 						Path:     "/",
 					}
 					hash := &http.Cookie{
 						Name:     "hash",
 						Value:    u.AuthToken,
-						Domain:   "localhost",
+						Domain:   "ls-86-rp.ru",
 						Path:     "/",
 						SameSite: http.SameSiteLaxMode,
 						MaxAge:   3000,
@@ -87,14 +87,14 @@ func exit(w http.ResponseWriter, r *http.Request) {
 		Name:     "Id",
 		Value:    "",
 		MaxAge:   -1,
-		Domain:   "localhost",
+		Domain:   "ls-86-rp.ru",
 		SameSite: http.SameSiteLaxMode,
 		Path:     "/",
 	}
 	hash := &http.Cookie{
 		Name:     "hash",
 		Value:    "",
-		Domain:   "localhost",
+		Domain:   "ls-86-rp.ru",
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,
 		MaxAge:   -1,
