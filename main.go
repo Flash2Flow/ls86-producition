@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	log.Println("server starting...")
 	router := mux.NewRouter().StrictSlash(true)
 	//main pages
 	router.HandleFunc("/", all)
