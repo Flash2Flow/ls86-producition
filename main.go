@@ -43,7 +43,7 @@ func main() {
 		router.HandleFunc("/rest/auth/{login}/{password}", Auth).Methods("GET")
 		router.HandleFunc("/rest/reg/{login}/{email}/{password}", Registration).Methods("GET")
 	*/
-	log.Fatal(http.ListenAndServe(":3030", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 //logic lk user
