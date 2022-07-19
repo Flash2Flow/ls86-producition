@@ -51,51 +51,59 @@ type Secret struct {
 
 type Success struct{}
 
-func (p Public) Auth() {
+func (p Public) Auth(login, password string, w http.ResponseWriter) {
+	u, err := ls86.Data.User.FindOne("login", login)
+	if err != nil {
+		ls86.REST.Public.Error.NotFoundReq(login)
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, err.Error())
+	} else {
+		passBool := CheckPasswordHash(password, u.Password)
+
+		if passBool == true {
+			ls86.REST.Public.Success.Authorized(u)
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(u)
+		} else {
+			ls86.REST.Public.Error.PasswordBad(password)
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Fprintf(w, ls86.Data.Error.PasswordWrong.Error())
+		}
+	}
 
 }
 
 func (u User) Reg(restType, login, password, email string, w http.ResponseWriter) {
 	switch restType {
 	case "public":
-		use, err := ls86.Data.User.FindOne("login", login)
-		if use.Id == 0 {
+		_, err := ls86.Data.User.FindOne("login", login)
+		log.Println(err)
+		switch err {
+		case ls86.Data.Error.NotFound:
+			_, err := ls86.Data.User.FindOne("email", email)
+
 			switch err {
 			case ls86.Data.Error.NotFound:
-				e, err := ls86.Data.User.FindOne("email", email)
-				if e.Id == 0 {
-					switch err {
-					case ls86.Data.Error.NotFound:
-						pass, err := HashPassword(password)
-						if err != nil {
-							log.Println("CRITICAL ERROR HASH PASSWORD!!!")
-							log.Println(err)
-						} else {
-							token := uuid.New()
-							user := User{
-								Login:     login,
-								Email:     email,
-								Password:  pass,
-								AuthToken: token.String(),
-							}
-							ls86.Data.User.Create(&user)
-							ls86.REST.Public.Success.Created(user)
-							w.WriteHeader(http.StatusOK)
-							json.NewEncoder(w).Encode(user)
-						}
-
-					}
+				pass, err := HashPassword(password)
+				if err != nil {
+					log.Println("CRITICAL ERROR HASH PASSWORD!!!")
+					log.Println(err)
 				} else {
-					ls86.REST.Public.Error.UserEmailAlreadyUsed(email)
-					w.WriteHeader(http.StatusBadRequest)
-					fmt.Fprintf(w, err.Error())
+					token := uuid.New()
+					user := User{
+						Login:     login,
+						Email:     email,
+						Password:  pass,
+						AuthToken: token.String(),
+					}
+					ls86.Data.User.Create(&user)
+					ls86.REST.Public.Success.Created(user)
+					w.WriteHeader(http.StatusOK)
+					json.NewEncoder(w).Encode(user)
 				}
 
 			}
-		} else {
-			ls86.REST.Public.Error.UserLoginAlreadyUsed(login)
-			w.WriteHeader(http.StatusBadRequest)
-			fmt.Fprintf(w, err.Error())
+
 		}
 
 	case "private":
@@ -179,4 +187,12 @@ func getOne(w http.ResponseWriter, r *http.Request) {
 	title := r.Header.Get("title")
 
 	ls86.REST.Public.User.Get(value, restType, title, w)
+}
+
+func authRest(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	//url params
+	login := params["login"]
+	password := params["password"]
+	ls86.REST.Public.Auth(login, password, w)
 }

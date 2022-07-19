@@ -5,42 +5,42 @@ $('#open-menu-nav').on('click', function(){
 $('#person-block-1').on('click', function(){
   console.log("press")
   var name = $("#person-block-1").attr("name");
-  window.location.replace("http://ls-86-rp.ru/home/" + name);
+  window.location.replace("http://localhost:8080/home/" + name);
 })
 $('#menu_nav_mobile').on('click', function(){
-  window.location.replace("http://ls-86-rp.ru/home/");
+  window.location.replace("http://localhost:8080/home/");
 })
 $('#menu_nav').on('click', function(){
-  window.location.replace("http://ls-86-rp.ru/home/");
+  window.location.replace("http://localhost:8080/home/");
 })
 $('#person-block-2').on('click', function(){
   console.log("press")
   var name = $("#person-block-2").attr("name");
-  window.location.replace("http://ls-86-rp.ru/home/" + name);
+  window.location.replace("http://localhost:8080/home/" + name);
 })
 
 $('#person-block-3').on('click', function(){
   console.log("press")
   var name = $("#person-block-3").attr("name");
-  window.location.replace("http://ls-86-rp.ru/home/" + name);
+  window.location.replace("http://localhost:8080/home/" + name);
 })
 $('#person-block-4').on('click', function(){
   console.log("press")
   var name = $("#person-block-4").attr("name");
-  window.location.replace("http://ls-86-rp.ru/home/" + name);
+  window.location.replace("http://localhost:8080/home/" + name);
 })
 
 
 
 $('#btn-exit').on('click', function(){
-  window.location.replace("http://ls-86-rp.ru/exit");
+  window.location.replace("http://localhost:8080/exit");
 })
 $('#btn-settings').on('click', function(){
     $('#block-settings-account').show(300);
     return false;
 })
 $('#btn-create-pers').on('click', function(){
-  window.location.replace("http://ls-86-rp.ru/ucp");
+  window.location.replace("http://localhost:8080/ucp");
   return false;
 })
 $(document).ready(function() {

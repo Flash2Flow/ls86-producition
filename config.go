@@ -18,6 +18,13 @@ type Server struct {
 	Port  string
 }
 
+type LKPAGE struct {
+	Users User
+	P     []Pers
+	Count string
+	Full  bool
+}
+
 var (
 	ls86 = LS86{
 		Server: Server{
@@ -38,6 +45,7 @@ var (
 				TokenBad:         errors.New("Token Bad!"),
 				LoginAlreadyHave: errors.New("Email Already Have!"),
 				EmailAlreadyHave: errors.New("Login Already Have!"),
+				PasswordWrong:    errors.New("Password Wrong!"),
 			}},
 		Redirect: Redirect{},
 	}

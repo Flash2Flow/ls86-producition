@@ -23,9 +23,14 @@ func (s *Server) Start() {
 	router.HandleFunc("/", all)
 	router.HandleFunc("/exit", exit)
 	router.HandleFunc("/home", home)
+	router.HandleFunc("/home/{id}", home)
+	router.HandleFunc("/auth/{login}/{token}", auth)
+	router.HandleFunc("/ucp", ucp)
 
 	//rest pages
+	router.HandleFunc("/rest/ucp", ucp).Methods("GET")
 	router.HandleFunc("/rest/reg/{login}/{email}/{password}", reg).Methods("GET")
+	router.HandleFunc("/rest/auth/{login}/{password}", authRest).Methods("GET")
 	router.HandleFunc("/rest/user/{value}", getOne).Methods("GET")
 	/*
 		router.HandleFunc("/home", lk)

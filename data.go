@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/jinzhu/gorm"
 
@@ -18,6 +19,7 @@ type Params struct {
 type Data struct {
 	Params Params
 	User   User
+	Pers   Pers
 	Error  Error
 }
 
@@ -89,7 +91,8 @@ func (u *User) FindOne(title string, value string) (*User, error) {
 	case "id":
 		db := ls86.Data.Connection()
 		user := new(User)
-		db.First(user, &User{Login: value})
+		str, _ := strconv.Atoi(value)
+		db.First(user, &User{Id: str})
 		fmt.Println(user)
 		defer db.Close()
 		if user.Id == 0 {
@@ -128,7 +131,7 @@ func (u *User) FindOne(title string, value string) (*User, error) {
 	case "auth-token":
 		db := ls86.Data.Connection()
 		user := new(User)
-		db.First(user, &User{Login: value})
+		db.First(user, &User{AuthToken: value})
 		fmt.Println(user)
 		defer db.Close()
 		if user.Id == 0 {
@@ -140,4 +143,19 @@ func (u *User) FindOne(title string, value string) (*User, error) {
 	default:
 		return nil, nil
 	}
+}
+
+func (p *Pers) GetAll(value string) ([]Pers, error) {
+	db := ls86.Data.Connection()
+
+	var person []Pers
+	db.Find(&person)
+	defer db.Close()
+	for _, p := range person {
+		if p.Login == value {
+			//fmt.Println(person)
+			return person, nil
+		}
+	}
+	return nil, ls86.Data.Error.NotFound
 }

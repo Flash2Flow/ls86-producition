@@ -5,4 +5,5 @@ type Error struct {
 	TokenBad         error
 	LoginAlreadyHave error
 	EmailAlreadyHave error
+	PasswordWrong    error
 }

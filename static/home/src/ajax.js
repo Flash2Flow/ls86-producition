@@ -5,7 +5,7 @@ $('#auth').on('click', function(){
     var password = document.getElementById('password_join').value;
     
     $.ajax({
-        url: '/rest/auth/ajax/' + login + "/" + password,
+        url: '/rest/auth/' + login + "/" + password,
         method: 'get',
         contentType: 'application/json',
         success: function (data) {
@@ -14,7 +14,7 @@ $('#auth').on('click', function(){
             setTimeout(function(data){
                 
                 console.log("+++")
-                window.location.replace(url + "/rest/auth/" + obj.Login + "/" + obj.AuthToken);
+                window.location.replace("http://localhost:8080/auth/" + obj.Login + "/" + obj.AuthToken );
                 
             }, 1500);
         },
@@ -35,12 +35,14 @@ $('#createdbtn').on('click', function(){
     $.ajax({
         url: '/rest/reg/' + reglogin + "/" + regemail + "/" + regpassword,
         method: 'get',
+        headers: {"restType": "public", "title":"login"},
         contentType: 'application/json',
         success: function (data) {
+            console.log(data);
             var obj = JSON.parse(data);
             $('#accepted').show(200).delay(0).slideUp(1000);
             setTimeout(function(){
-                window.location.replace(url + "/rest/auth/" + obj.Login + "/" + obj.AuthToken);
+                window.location.replace("http://localhost:8080/auth/" + obj.Login + "/" + obj.AuthToken);
                 
             }, 1500);
         },

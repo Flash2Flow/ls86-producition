@@ -61,12 +61,10 @@ func (u *UUID) delete(w http.ResponseWriter) {
 	http.SetCookie(w, UUID)
 }
 
-func (i *Id) set(w http.ResponseWriter) {
-	str := uuid.New()
-	log.Println(str.String())
+func (i *Id) set(w http.ResponseWriter, value string) {
 	Id := http.Cookie{
 		Name:     "id",
-		Value:    str.String(),
+		Value:    value,
 		Domain:   ls86.Server.Url,
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,
@@ -97,12 +95,11 @@ func (i *Id) delete(w http.ResponseWriter) {
 	http.SetCookie(w, Id)
 }
 
-func (h *Hash) set(w http.ResponseWriter) {
-	str := uuid.New()
-	log.Println(str.String())
+func (h *Hash) set(w http.ResponseWriter, value string) {
+
 	hash := http.Cookie{
 		Name:     "hash",
-		Value:    str.String(),
+		Value:    value,
 		Domain:   ls86.Server.Url,
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,

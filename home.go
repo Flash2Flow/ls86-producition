@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func all(w http.ResponseWriter, r *http.Request) {
@@ -61,23 +63,53 @@ func home(w http.ResponseWriter, r *http.Request) {
 				//have uuid + hash + id
 				u, err := ls86.Cookie.Other.CheckAuth(id, hash)
 				if err != nil {
-
+					log.Println("eererer")
 				} else {
-					ls86.Logs.User.Authorized(u)
-					temp, err := template.ParseFiles("temp/Home.html")
+					ls86.Logs.User.Auth(u)
+					p, _ := ls86.Data.Pers.GetAll(u.Login)
+					count := GetPersontValue(u)
+					if count != "4/4" {
+						data := LKPAGE{
+							Users: *u,
+							P:     p,
+							Count: count,
+							Full:  false,
+						}
+						temp, err := template.ParseFiles("temp/lk.html")
 
-					if err != nil {
-						fmt.Fprintf(w, err.Error())
+						if err != nil {
+							fmt.Fprintf(w, err.Error())
+						}
+
+						temp.ExecuteTemplate(w, "lk", data)
+					} else {
+						data := LKPAGE{
+							Users: *u,
+							P:     p,
+							Count: count,
+							Full:  false,
+						}
+						temp, err := template.ParseFiles("temp/lk.html")
+
+						if err != nil {
+							fmt.Fprintf(w, err.Error())
+						}
+
+						temp.ExecuteTemplate(w, "lk", data)
 					}
-
-					temp.ExecuteTemplate(w, "home", u)
 				}
 			} else {
 				//have uuid, have hash, no id
-				str := fmt.Sprintf("USER TRYING ACCESS ON LK PAGE WITHOUT ID, but WITH UUID - %s, HASH - %s", uuid.Value, hash.Value)
-				log.Println(str)
-				ls86.Redirect.toExit(w)
-				return
+				id, err := ls86.Data.User.FindOne("token", hash.Value)
+				if err != nil {
+					str := fmt.Sprintf("USER TRYING ACCESS ON LK PAGE WITHOUT ID, but WITH UUID - %s, HASH - %s", uuid.Value, hash.Value)
+					log.Println(str)
+					ls86.Redirect.toExit(w)
+					return
+				} else {
+					str := fmt.Sprintf("%v", id.Id)
+					ls86.Cookie.Id.set(w, str)
+				}
 			}
 		} else {
 			//no hash
@@ -130,6 +162,54 @@ func home(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
+	}
+}
+
+func auth(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	//url params
+	login := params["login"]
+	token := params["token"]
+	uuid, _ := ls86.Cookie.UUID.get(r)
+	if uuid != nil {
+		hash, _ := ls86.Cookie.Hash.get(r)
+		if hash != nil {
+			//have hash, have uuid
+			ls86.Logs.User.MoveUUID(uuid.Value, "/", "/home")
+			ls86.Redirect.toHome(w)
+			return
+		} else {
+			//no hash, have uuid
+			u, err := ls86.Data.User.FindOne("login", login)
+			if err != nil {
+				log.Println("NOT FOUND USER WITH LOGIN - " + login)
+			} else {
+				if login == u.Login {
+					if token == u.AuthToken {
+						str := fmt.Sprintf("%v", u.Id)
+						ls86.Cookie.Id.set(w, str)
+						ls86.Cookie.Hash.set(w, token)
+						ls86.Redirect.toHome(w)
+					} else {
+						ls86.Data.Error.IncorectToken(token)
+					}
+				} else {
+					log.Println("some errors 👉🏻👈🏻")
+				}
+			}
+		}
+	} else {
+		hash, _ := ls86.Cookie.Hash.get(r)
+		if hash != nil {
+			//have hash, no uuid
+			log.Println("redirect unknown guest with hash to /home - " + hash.Value)
+			ls86.Redirect.toExit(w)
+			return
+
+		} else {
+			//no hash no uuid
+			ls86.Redirect.toMain(w)
+		}
 	}
 }
 

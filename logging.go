@@ -45,8 +45,8 @@ func (u *User) Unauthorized(value string, uuid string) {
 	log.Println(str)
 }
 
-func (u *User) Authorized(user *User) {
-	str := fmt.Sprintf("USER LEFT: %s,\r\nUUID: %v", user)
+func (u *User) Auth(user *User) {
+	str := fmt.Sprintf("REST API AUTH USER: %v", user)
 	log.Println(str)
 }
 
@@ -56,6 +56,11 @@ func (s *Server) AllOk() {
 
 func (e *Error) NotFoundReq(value string) {
 	str := fmt.Sprintf("REST API NOT FOUND REQUEST: %s", value)
+	log.Println(str)
+}
+
+func (e *Error) IncorectToken(value string) {
+	str := fmt.Sprintf("REST API AUTH BAD REQUEST TOKEN: %s", value)
 	log.Println(str)
 }
 
@@ -74,6 +79,11 @@ func (e *Error) UserEmailAlreadyUsed(value string) {
 	log.Println(str)
 }
 
+func (e *Error) PasswordBad(value string) {
+	str := fmt.Sprintf("REST API BAD REQUEST, PASSWORD INCORECT: %s", value)
+	log.Println(str)
+}
+
 func (s *Success) Found(value interface{}) {
 	str := fmt.Sprintf("REST API FOUND USER: %v", value)
 	log.Println(str)
@@ -81,5 +91,10 @@ func (s *Success) Found(value interface{}) {
 
 func (s *Success) Created(value interface{}) {
 	str := fmt.Sprintf("REST API CREATE USER: %v", value)
+	log.Println(str)
+}
+
+func (s *Success) Authorized(value interface{}) {
+	str := fmt.Sprintf("REST API AUTH USER: %v", value)
 	log.Println(str)
 }
