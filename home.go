@@ -3,182 +3,177 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 func all(w http.ResponseWriter, r *http.Request) {
-	/*
-		db := ls86.Data.Connection()
-		db.CreateTable(User{})
-		db.CreateTable(Pers{})
-		defer db.Close()
-	*/
-	bool, u := checkCookie(r)
-	if bool == true {
-		temp, err := template.ParseFiles("temp/redirects/toHome.html")
-
-		if err != nil {
-			fmt.Fprintf(w, err.Error())
-		}
-
-		temp.ExecuteTemplate(w, "redirect_home", nil)
-		return
-	} else {
-		temp, err := template.ParseFiles("temp/home.html")
-
-		if err != nil {
-			fmt.Fprintf(w, err.Error())
-		}
-
-		temp.ExecuteTemplate(w, "home", u)
-	}
-
-}
-
-type Lk_Page struct {
-	Users User
-	P     []Pers
-	Count string
-	Full  bool
-}
-
-func lk(w http.ResponseWriter, r *http.Request) {
-
-	bool, u := checkCookie(r)
-	if bool == true {
-
-		//get person
-		p, _ := ls86.Data.GetAllPers(u.Login)
-		count := GetPersontValue(u)
-		if count != "4/4" {
-			var full = false
-			data := &Lk_Page{Users: *u, P: p, Count: count, Full: full}
-			temp, err := template.ParseFiles("temp/lk.html")
-
-			if err != nil {
-				fmt.Fprintf(w, err.Error())
-			}
-
-			temp.ExecuteTemplate(w, "lk", data)
+	uuid, _ := ls86.Cookie.UUID.get(r)
+	if uuid != nil {
+		hash, _ := ls86.Cookie.Hash.get(r)
+		if hash != nil {
+			//have hash, have uuid
+			ls86.Logs.User.MoveUUID(uuid.Value, "/", "/home")
+			ls86.Redirect.toHome(w)
+			return
 		} else {
-			var full = true
-			data := &Lk_Page{Users: *u, P: p, Count: count, Full: full}
-			temp, err := template.ParseFiles("temp/lk.html")
+			//no hash, have uuid
+			temp, err := template.ParseFiles("temp/home.html")
 
 			if err != nil {
 				fmt.Fprintf(w, err.Error())
 			}
 
-			temp.ExecuteTemplate(w, "lk", data)
+			temp.ExecuteTemplate(w, "home", nil)
 		}
-
 	} else {
-		temp, err := template.ParseFiles("temp/redirects/toMain.html")
+		hash, _ := ls86.Cookie.Hash.get(r)
+		if hash != nil {
+			//have hash, no uuid
+			log.Println("redirect unknown guest with hash to /home - " + hash.Value)
+			ls86.Redirect.toExit(w)
+			return
 
-		if err != nil {
-			fmt.Fprintf(w, err.Error())
+		} else {
+			//no hash no uuid
+			ls86.Logs.User.GenerateUUID(ls86.Cookie.UUID.set(w))
+			temp, err := template.ParseFiles("temp/home.html")
+
+			if err != nil {
+				fmt.Fprintf(w, err.Error())
+			}
+
+			temp.ExecuteTemplate(w, "home", nil)
 		}
-
-		temp.ExecuteTemplate(w, "redirect_main", nil)
-		return
 	}
 }
 
-type Lk_Pers_Page struct {
-	U User
-	P Pers
-	S int
+func home(w http.ResponseWriter, r *http.Request) {
+	uuid, _ := ls86.Cookie.UUID.get(r)
+	if uuid != nil {
+		//have uuid
+		hash, _ := ls86.Cookie.Hash.get(r)
+		if hash != nil {
+			//have uuid + hash
+			id, _ := ls86.Cookie.Id.get(r)
+			if id != nil {
+				//all ok
+				//have uuid + hash + id
+				u, err := ls86.Cookie.Other.CheckAuth(id, hash)
+				if err != nil {
+
+				} else {
+					ls86.Logs.User.Authorized(u)
+					temp, err := template.ParseFiles("temp/Home.html")
+
+					if err != nil {
+						fmt.Fprintf(w, err.Error())
+					}
+
+					temp.ExecuteTemplate(w, "home", u)
+				}
+			} else {
+				//have uuid, have hash, no id
+				str := fmt.Sprintf("USER TRYING ACCESS ON LK PAGE WITHOUT ID, but WITH UUID - %s, HASH - %s", uuid.Value, hash.Value)
+				log.Println(str)
+				ls86.Redirect.toExit(w)
+				return
+			}
+		} else {
+			//no hash
+			id, _ := ls86.Cookie.Id.get(r)
+			if id != nil {
+				//have uuid, no hash, have id
+				str := fmt.Sprintf("USER TRYING ACCESS ON LK PAGE WITHOUT UUID, but WITH UUID - %s, ID - %s", uuid.Value, id.Value)
+				log.Println(str)
+				ls86.Redirect.toExit(w)
+				return
+			} else {
+				//have uuid, no hash, no id
+				log.Println("USER TRYING ACCESS ON LK PAGE WITHOUT HASH, ID but HAVE UUID - " + uuid.Value)
+				ls86.Redirect.toMain(w)
+				return
+
+			}
+		}
+	} else {
+		//no uuid
+		hash, _ := ls86.Cookie.Hash.get(r)
+		if hash != nil {
+			//no uuid, have hash
+			id, _ := ls86.Cookie.Id.get(r)
+			if id != nil {
+				str := fmt.Sprintf("USER TRYING ACCESS ON LK PAGE WITHOUT UUID, but WITH HASH - %s, ID - %s", hash.Value, id.Value)
+				//no uuid, have hash, have id
+				log.Println(str)
+				ls86.Redirect.toExit(w)
+				return
+			} else {
+				//no uuid, have hash, no id
+				log.Println("USER TRYING ACCESS ON LK PAGE WITHOUT UUID, ID  but WITH HASH - " + hash.Value)
+				ls86.Redirect.toExit(w)
+				return
+			}
+		} else {
+			//no uuid, no hash
+			id, _ := ls86.Cookie.Id.get(r)
+			if id != nil {
+				//no uuid, no hash, have id
+				log.Println("GUEST TRYING ACCESS ON LK PAGE WITHOUT UUID, HASH but WITH ID - " + id.Value)
+				ls86.Redirect.toExit(w)
+				return
+			} else {
+				//no uuid, no hash, no id
+				log.Println("GUEST TRYING ACCESS ON LK PAGE WITHOUT UUID, HASH, ID")
+				ls86.Redirect.toMain(w)
+				return
+			}
+		}
+
+	}
 }
 
-func lkpers(w http.ResponseWriter, r *http.Request) {
+func exit(w http.ResponseWriter, r *http.Request) {
+	uuid, _ := ls86.Cookie.UUID.get(r)
+	if uuid != nil {
+		hash, _ := ls86.Cookie.Hash.get(r)
+		if hash != nil {
+			//have hash, have uuid
+			ls86.Logs.User.Unauthorized(hash.Value, uuid.Value)
 
-	bool, u := checkCookie(r)
-	if bool == true {
-		params := mux.Vars(r)
-		id := params["id"]
-		p, err := ls86.Data.GetPers("id", id)
-		if err == nil {
-			if p.State == ls86.State.Allow {
-				data := &Lk_Pers_Page{U: *u, P: *p, S: 1}
+			//del all cookie
 
-				temp, err := template.ParseFiles("temp/lk_pers.html")
+			ls86.Cookie.Hash.delete(w)
+			ls86.Cookie.Id.delete(w)
 
-				if err != nil {
-					fmt.Fprintf(w, err.Error())
-				}
-
-				temp.ExecuteTemplate(w, "lk_pers", data)
-			}
-
-			if p.State == ls86.State.Disallow {
-				data := &Lk_Pers_Page{U: *u, P: *p, S: 2}
-
-				temp, err := template.ParseFiles("temp/lk_pers.html")
-
-				if err != nil {
-					fmt.Fprintf(w, err.Error())
-				}
-
-				temp.ExecuteTemplate(w, "lk_pers", data)
-			}
-
-			if p.State == ls86.State.Waiting {
-				data := &Lk_Pers_Page{U: *u, P: *p, S: 3}
-
-				temp, err := template.ParseFiles("temp/lk_pers.html")
-
-				if err != nil {
-					fmt.Fprintf(w, err.Error())
-				}
-
-				temp.ExecuteTemplate(w, "lk_pers", data)
-			}
-
+			ls86.Redirect.toMain(w)
+			return
 		} else {
-			temp, err := template.ParseFiles("temp/redirects/toHome.html")
+			//no hash, have uuid
+			ls86.Logs.User.MoveUUID(uuid.Value, "/exit", "/")
+			//termitate id cookie
+			ls86.Cookie.Id.delete(w)
+			ls86.Cookie.Hash.delete(w)
 
-			if err != nil {
-				fmt.Fprintf(w, err.Error())
-			}
-
-			temp.ExecuteTemplate(w, "redirect_home", nil)
+			ls86.Redirect.toMain(w)
 			return
 		}
-
 	} else {
-		temp, err := template.ParseFiles("temp/redirects/toMain.html")
+		hash, _ := ls86.Cookie.Hash.get(r)
+		if hash != nil {
+			//have hash, no uuid
+			//termitate hash, then redirect to home
+			ls86.Cookie.Id.delete(w)
+			ls86.Cookie.Hash.delete(w)
+			ls86.Redirect.toMain(w)
+			return
 
-		if err != nil {
-			fmt.Fprintf(w, err.Error())
+		} else {
+			//no hash no uuid
+			log.Println("unknown guest without cookies trying exit...")
+			ls86.Cookie.Id.delete(w)
+			ls86.Redirect.toMain(w)
+			return
 		}
-
-		temp.ExecuteTemplate(w, "redirect_main", nil)
-		return
-	}
-}
-
-func ucp(w http.ResponseWriter, r *http.Request) {
-
-	bool, u := checkCookie(r)
-	if bool == true {
-
-		temp, err := template.ParseFiles("temp/ucp.html")
-
-		if err != nil {
-			fmt.Fprintf(w, err.Error())
-		}
-
-		temp.ExecuteTemplate(w, "ucp", u)
-	} else {
-		temp, err := template.ParseFiles("temp/redirects/toMain.html")
-
-		if err != nil {
-			fmt.Fprintf(w, err.Error())
-		}
-
-		temp.ExecuteTemplate(w, "redirect_main", nil)
-		return
 	}
 }
